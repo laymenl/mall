@@ -14,13 +14,13 @@ import java.util.ArrayList;
 public class AuthenticateController {
 
     @RequestMapping("login")
-    public BaseRespVo login(@RequestBody User user){
+    public BaseRespVo login(@RequestBody User user) {
         //登录的业务逻辑使用shiro来做 →
         return BaseRespVo.ok("4e295462-c349-461a-8e79-e8147ca1ff1a");
     }
 
     @RequestMapping("info")
-    public BaseRespVo info(String token){
+    public BaseRespVo info(String token) {
         DataBean dataBean = new DataBean();
         dataBean.setAvatar("http://localhost:8083/images.png");
         dataBean.setName("admin");
