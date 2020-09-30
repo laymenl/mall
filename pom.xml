@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.cskaoyan</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>24thProject2</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
+    <name>24thProject2</name>
     <description>24thProject2</description>
 
     <properties>
