@@ -3,6 +3,6 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost::3306/j24_db
+    url: jdbc:mysql://localhost__3306/j24_db
     username: root
-    password: 123456
+    password: 17764521843
