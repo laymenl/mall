@@ -3,7 +3,7 @@ package com.cskaoyan.bean;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class User {
+public class Items {
     private Integer id;
 
     private String goodsSn;
