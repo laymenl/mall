@@ -22,8 +22,10 @@ public class StorageController {
     @Autowired
     StorageService storageService;
 
+//    本地图片存储位置，可于application.yml中自行修改
     @Value("${storage.path}")
     String storagePath;
+
 
     @RequestMapping("create")
     public BaseRespVo create(MultipartFile file) throws IOException {
