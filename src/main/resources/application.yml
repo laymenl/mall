@@ -6,6 +6,8 @@ spring:
     url: jdbc:mysql://localhost:3306/mall
     username: root
     password: 123456
+mybatis:
+  type-handlers-package: com.cskaoyan.typehandler
 pagehelper:
   helper-dialect: mysql
 #springboot默认日志级别是info

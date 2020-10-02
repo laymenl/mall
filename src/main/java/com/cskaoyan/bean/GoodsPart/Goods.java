@@ -18,7 +18,7 @@ public class Goods {
 
     private Integer brandId;
 
-    private List<String> gallery;
+    private String[] gallery;
 
     private String keywords;
 

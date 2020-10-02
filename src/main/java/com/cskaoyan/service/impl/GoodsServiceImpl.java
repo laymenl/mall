@@ -3,6 +3,7 @@ package com.cskaoyan.service.impl;
 import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.GoodsPart.GoodsExample;
 import com.cskaoyan.bean.ListBean;
+//import com.cskaoyan.mapper.GoodsMapper;
 import com.cskaoyan.mapper.GoodsMapper;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
