@@ -1,4 +1,4 @@
-package com.cskaoyan.bean.BO;
+package com.cskaoyan.bean.GoodsPart.BO;
 
 import com.cskaoyan.bean.GoodsPart.Attribute;
 import com.cskaoyan.bean.GoodsPart.Goods;
