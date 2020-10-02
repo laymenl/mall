@@ -1,6 +1,14 @@
 server:
   port: 8083
 spring:
+#  图片上传，静态资源映射,此处static-path-pattern暂时不支持自定义，可以改static-locations
+  mvc:
+    static-path-pattern: /storage/fetch/**
+  resources:
+    static-locations: file:F:\Documents\Works@cskaoyan\07 Project2\storage
+  http:
+    multipart:
+      enabled=true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mall
@@ -15,4 +23,6 @@ logging:
   level:
     com.cskaoyan.mapper: debug
     com.cskaoyan.service: warn
-
+# 自定义变量，用于StorageController中配置本地图片的存储位置
+storage:
+  path: F:\Documents\Works@cskaoyan\07 Project2\storage
