@@ -1,4 +1,4 @@
-package com.cskaoyan.bean.GoodsPart.BO;
+package com.cskaoyan.bean.GoodsPart.VO;
 
 import com.cskaoyan.bean.GoodsPart.Attribute;
 import com.cskaoyan.bean.GoodsPart.Goods;
@@ -15,7 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class GoodsCreateBOAndDetailVO {
+public class GoodsVO {
     Goods goods;
     List<Product> products;
     List<Specification> specifications;

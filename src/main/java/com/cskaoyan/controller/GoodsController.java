@@ -1,7 +1,7 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.GoodsPart.Attribute;
-import com.cskaoyan.bean.GoodsPart.BO.GoodsCreateBOAndDetailVO;
+import com.cskaoyan.bean.GoodsPart.VO.GoodsVO;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.GoodsPart.Product;
@@ -36,14 +36,14 @@ public class GoodsController {
     }
 
     @RequestMapping("create")
-    public BaseRespVo create(@RequestBody GoodsCreateBOAndDetailVO goodsCreateBO){
+    public BaseRespVo create(@RequestBody GoodsVO goodsCreateBO){
         System.out.println(goodsCreateBO);
         Goods goods = goodsCreateBO.getGoods();
         List<Specification> specifications = goodsCreateBO.getSpecifications();
         List<Product> products = goodsCreateBO.getProducts();
         List<Attribute> attributes = goodsCreateBO.getAttributes();
         try{
-            int code = goodsService.create(goods, specifications, products, attributes);
+            goodsService.create(goods, specifications, products, attributes);
         }catch (Exception exception){
             return BaseRespVo.fail("插入错误");
         }
@@ -52,8 +52,23 @@ public class GoodsController {
 
     @RequestMapping("detail")
     public BaseRespVo detail(Integer id){
-        GoodsCreateBOAndDetailVO goodsDeatiVo = goodsService.detail(id);
+        GoodsVO goodsDeatiVo = goodsService.detail(id);
         return BaseRespVo.ok(goodsDeatiVo);
     }
+
+    @RequestMapping("update")
+    public BaseRespVo update(@RequestBody GoodsVO goodsVO){
+        Goods goods = goodsVO.getGoods();
+        List<Attribute> attributes = goodsVO.getAttributes();
+        List<Product> products = goodsVO.getProducts();
+        List<Specification> specifications = goodsVO.getSpecifications();
+        try{
+            goodsService.update(goods, specifications, products, attributes);
+        }catch (Exception exception){
+            return BaseRespVo.fail("更新错误");
+        }
+        return BaseRespVo.ok();
+    }
+
 
 }
