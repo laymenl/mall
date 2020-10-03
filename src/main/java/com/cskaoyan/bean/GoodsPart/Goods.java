@@ -42,11 +42,11 @@ public class Goods {
 
     private BigDecimal retailPrice;
 
-    private Date addTime;
+    private Date addTime = new Date();
 
-    private Date updateTime;
+    private Date updateTime = new Date();
 
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     private String detail;
 
