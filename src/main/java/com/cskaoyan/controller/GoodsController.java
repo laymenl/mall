@@ -1,7 +1,7 @@
 package com.cskaoyan.controller;
 
 import com.cskaoyan.bean.GoodsPart.Attribute;
-import com.cskaoyan.bean.GoodsPart.BO.GoodsCreateBO;
+import com.cskaoyan.bean.GoodsPart.BO.GoodsCreateBOAndDetailVO;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.GoodsPart.Product;
@@ -36,7 +36,7 @@ public class GoodsController {
     }
 
     @RequestMapping("create")
-    public BaseRespVo create(@RequestBody GoodsCreateBO goodsCreateBO){
+    public BaseRespVo create(@RequestBody GoodsCreateBOAndDetailVO goodsCreateBO){
         System.out.println(goodsCreateBO);
         Goods goods = goodsCreateBO.getGoods();
         List<Specification> specifications = goodsCreateBO.getSpecifications();
@@ -48,6 +48,12 @@ public class GoodsController {
             return BaseRespVo.fail("插入错误");
         }
         return BaseRespVo.ok();
+    }
+
+    @RequestMapping("detail")
+    public BaseRespVo detail(Integer id){
+        GoodsCreateBOAndDetailVO goodsDeatiVo = goodsService.detail(id);
+        return BaseRespVo.ok(goodsDeatiVo);
     }
 
 }
