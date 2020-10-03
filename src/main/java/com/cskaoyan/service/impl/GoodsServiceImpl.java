@@ -1,7 +1,7 @@
 package com.cskaoyan.service.impl;
 
 import com.cskaoyan.bean.GoodsPart.*;
-import com.cskaoyan.bean.GoodsPart.BO.GoodsCreateBOAndDetailVO;
+import com.cskaoyan.bean.GoodsPart.VO.GoodsVO;
 import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CategoryVO;
@@ -60,7 +60,7 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Transactional
     @Override
-    public int create(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes) throws RuntimeException{
+    public void create(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes) throws RuntimeException{
         try{
             int insertGoods = goodsMapper.insert(goods);
             int insertSpecifications = specificationMapper.insertSpecifications(specifications, goods.getId());
@@ -70,11 +70,10 @@ public class GoodsServiceImpl implements GoodsService {
             exception.printStackTrace();
             throw new RuntimeException();
         }
-        return 200;
     }
 
     @Override
-    public GoodsCreateBOAndDetailVO detail(Integer goodsId) {
+    public GoodsVO detail(Integer goodsId) {
         Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
         SpecificationExample specificationExample = new SpecificationExample();
         SpecificationExample.Criteria specificationExampleCriteria = specificationExample.createCriteria();
@@ -92,7 +91,12 @@ public class GoodsServiceImpl implements GoodsService {
         List<Attribute> attributes = attributeMapper.selectByExample(attributeExample);
         Integer pid = categoryMapper.getPidById(goods.getCategoryId());
         Integer[] categoryIds = {pid, goods.getCategoryId()};
-        GoodsCreateBOAndDetailVO goodsCreateBOAndDetailVO = new GoodsCreateBOAndDetailVO(goods, products, specifications, attributes, categoryIds);
-        return goodsCreateBOAndDetailVO;
+        GoodsVO goodsVO = new GoodsVO(goods, products, specifications, attributes, categoryIds);
+        return goodsVO;
+    }
+
+    @Override
+    public void update(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes) {
+//        goodsMapper.deleteByExample();
     }
 }
