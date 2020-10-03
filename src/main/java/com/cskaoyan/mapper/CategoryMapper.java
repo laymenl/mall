@@ -7,4 +7,7 @@ import java.util.List;
 public interface CategoryMapper {
 
     List<CategoryVO> getAllCategoryVO();
+
+
+    Integer getPidById(Integer id);
 }

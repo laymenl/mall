@@ -1,6 +1,7 @@
 package com.cskaoyan.service.impl;
 
 import com.cskaoyan.bean.GoodsPart.*;
+import com.cskaoyan.bean.GoodsPart.BO.GoodsCreateBOAndDetailVO;
 import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CategoryVO;
@@ -70,5 +71,28 @@ public class GoodsServiceImpl implements GoodsService {
             throw new RuntimeException();
         }
         return 200;
+    }
+
+    @Override
+    public GoodsCreateBOAndDetailVO detail(Integer goodsId) {
+        Goods goods = goodsMapper.selectByPrimaryKey(goodsId);
+        SpecificationExample specificationExample = new SpecificationExample();
+        SpecificationExample.Criteria specificationExampleCriteria = specificationExample.createCriteria();
+        ProductExample productExample = new ProductExample();
+        ProductExample.Criteria productExampleCriteria = productExample.createCriteria();
+        AttributeExample attributeExample = new AttributeExample();
+        AttributeExample.Criteria attributeExampleCriteria = attributeExample.createCriteria();
+        if(goodsId != null){
+            specificationExampleCriteria.andGoodsIdEqualTo(goodsId);
+            productExampleCriteria.andGoodsIdEqualTo(goodsId);
+            attributeExampleCriteria.andGoodsIdEqualTo(goodsId);
+        }
+        List<Specification> specifications = specificationMapper.selectByExample(specificationExample);
+        List<Product> products = productMapper.selectByExample(productExample);
+        List<Attribute> attributes = attributeMapper.selectByExample(attributeExample);
+        Integer pid = categoryMapper.getPidById(goods.getCategoryId());
+        Integer[] categoryIds = {pid, goods.getCategoryId()};
+        GoodsCreateBOAndDetailVO goodsCreateBOAndDetailVO = new GoodsCreateBOAndDetailVO(goods, products, specifications, attributes, categoryIds);
+        return goodsCreateBOAndDetailVO;
     }
 }
