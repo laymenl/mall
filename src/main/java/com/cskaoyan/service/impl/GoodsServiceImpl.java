@@ -1,19 +1,17 @@
 package com.cskaoyan.service.impl;
 
-import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.GoodsPart.*;
 import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CategoryVO;
 import com.cskaoyan.bean.ListBean;
-import com.cskaoyan.mapper.BrandMapper;
-import com.cskaoyan.mapper.CategoryMapper;
-import com.cskaoyan.mapper.GoodsMapper;
+import com.cskaoyan.mapper.*;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,10 +22,20 @@ public class GoodsServiceImpl implements GoodsService {
     GoodsMapper goodsMapper;
 
     @Autowired
+    SpecificationMapper specificationMapper;
+
+    @Autowired
+    ProductMapper productMapper;
+
+    @Autowired
+    AttributeMapper attributeMapper;
+
+    @Autowired
     CategoryMapper categoryMapper;
 
     @Autowired
     BrandMapper brandMapper;
+
 
     @Override
     public ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order) {
@@ -47,5 +55,20 @@ public class GoodsServiceImpl implements GoodsService {
         List<BrandVO> brandList = brandMapper.getAllBrandVO();
         CatAndBrandVO catAndBrandVO = new CatAndBrandVO(categoryList, brandList);
         return catAndBrandVO;
+    }
+
+    @Transactional
+    @Override
+    public int create(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes) throws RuntimeException{
+        try{
+            int insertGoods = goodsMapper.insert(goods);
+            int insertSpecifications = specificationMapper.insertSpecifications(specifications, goods.getId());
+            int insertProducts = productMapper.insertProducts(products, goods.getId());
+            int insertAttributes = attributeMapper.insertAttributes(attributes, goods.getId());
+        }catch (Exception exception){
+            exception.printStackTrace();
+            throw new RuntimeException();
+        }
+        return 200;
     }
 }
