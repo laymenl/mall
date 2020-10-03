@@ -12,6 +12,7 @@ public interface GoodsMapper {
 
     int deleteByPrimaryKey(Integer id);
 
+//    useGeneratedKeys="true" keyProperty="id"
     int insert(Goods record);
 
     int insertSelective(Goods record);
