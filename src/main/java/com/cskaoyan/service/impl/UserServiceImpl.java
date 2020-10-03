@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
     public ListBean queryUserListBean(String username, String mobile, Integer page, Integer limit, String sort, String order) {
         //分页
         PageHelper.startPage(page,limit);
-
         //example是提供条件的
         UserExample userExample = new UserExample();
         //and + 列名 + 条件
