@@ -13,7 +13,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mall
     username: root
-    password: mz8688765712
+    password: 123456
 mybatis:
   type-handlers-package: com.cskaoyan.typehandler
 pagehelper:

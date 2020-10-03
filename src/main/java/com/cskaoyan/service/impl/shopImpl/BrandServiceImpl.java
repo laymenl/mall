@@ -59,15 +59,7 @@ public class BrandServiceImpl implements BrandService {
     public BrandVO updateBrand(Brand brand) {
         BrandExample brandExample = new BrandExample();
         brandExample.createCriteria().andIdEqualTo(brand.getId());
-        Brand record = new Brand();
-
-        record.setUpdateTime(new Date());
-        record.setName(brand.getName());
-        record.setDesc(brand.getDesc());
-        record.setPicUrl(brand.getPicUrl());
-        record.setFloorPrice(brand.getFloorPrice());
-
-        brandMapper.updateByExampleSelective(record,brandExample);
+        brandMapper.updateByExampleSelective(brand,brandExample);
         Brand brandSelectById = brandMapper.selectByPrimaryKey(brand.getId());
         return getBrandVO(brandSelectById);
     }
@@ -90,5 +82,4 @@ public class BrandServiceImpl implements BrandService {
         brandVO.setName(brand.getName());
         return brandVO;
     }
-
 }
