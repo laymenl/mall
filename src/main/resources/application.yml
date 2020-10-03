@@ -3,6 +3,12 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost__3306/j24_db
+    url: jdbc:mysql://localhost:3306/j24_db
     username: root
     password: 17764521843
+pagehelper:
+  helper-dialect: mysql
+logging:
+  level:
+    com.cskaoyan.mapper: debug
+    com.cskaoyan.service: warn
