@@ -36,6 +36,9 @@ build/
 .mvn/
 mvnw
 
+#配置文件
+application.yml
+
 ### 逆向工程文件不共享,小心使用 ###
 generatorConfig.xml
 Generator.java
