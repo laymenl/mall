@@ -11,6 +11,7 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -39,5 +40,24 @@ public class RoleServiceImpl implements RoleService {
     public List<OptionVO> queryOptions(){
         List<OptionVO> optionVOList = roleMapper.queryOptions();
         return optionVOList;
+    }
+
+    @Override
+    public void createRole(Role role) {
+        role.setAddTime(new Date());
+        role.setUpdateTime(new Date());
+        role.setDeleted(false);
+        roleMapper.insert(role);
+    }
+
+    @Override
+    public void updateRole(Role role) {
+        role.setUpdateTime(new Date());
+        roleMapper.updateByPrimaryKey(role);
+    }
+
+    @Override
+    public void deleteRole(Role role) {
+        roleMapper.deleteByPrimaryKey(role.getId());
     }
 }
