@@ -5,5 +5,5 @@ import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import java.util.List;
 
 public interface BrandMapper {
-    List<BrandVO> getAllBrandVO();
+    List<BrandVO> getAllUnDeletedBrandVO();
 }

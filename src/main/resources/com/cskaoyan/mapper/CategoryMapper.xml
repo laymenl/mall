@@ -10,11 +10,11 @@
         <collection property="children" column="id" select="selectChildrenCatesById"></collection>
     </resultMap>
 
-    <select id="getAllCategoryVO" resultMap="CategoryVO">
-        select id, name from cskaoyanmall_category where `level` = "L1"
+    <select id="getAllUnDeletedCategoryVO" resultMap="CategoryVO">
+        select id, name from cskaoyanmall_category where `level` = "L1" and deleted = false
     </select>
     <select id="selectChildrenCatesById" resultType="com.cskaoyan.bean.GoodsPart.VO.CategoryVO">
-        select id as value, name as label from cskaoyanmall_category where pid = #{pid}
+        select id as value, name as label from cskaoyanmall_category where pid = #{pid} and deleted = false
     </select>
     <select id="getPidById" resultType="java.lang.Integer">
         select pid from cskaoyanmall_category where id = #{id}
