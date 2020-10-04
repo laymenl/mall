@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cskaoyan.mapper.BrandMapper">
 
-    <select id="getAllBrandVO" resultType="com.cskaoyan.bean.GoodsPart.VO.BrandVO">
-        select id as value, name as label from cskaoyanmall_brand
+    <select id="getAllUnDeletedBrandVO" resultType="com.cskaoyan.bean.GoodsPart.VO.BrandVO">
+        select id as value, name as label from cskaoyanmall_brand where deleted = false
     </select>
 </mapper>

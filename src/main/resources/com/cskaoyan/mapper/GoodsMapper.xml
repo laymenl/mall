@@ -532,4 +532,7 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="setDeletedTrue">
+    update cskaoyanmall_goods set deleted = true, update_time = now() where id = #{id}
+  </update>
 </mapper>

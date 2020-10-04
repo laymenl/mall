@@ -2,6 +2,8 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.GoodsPart.Product;
 import com.cskaoyan.bean.GoodsPart.ProductExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +31,6 @@ public interface ProductMapper {
     int updateByPrimaryKey(Product record);
 
     int insertProducts(@Param("products") List<Product> products, @Param("goodsId") Integer goodsId);
+
+    void setDeletedTrueByGoodsId(@Param("goodsId") Integer goodsId, @Param("updateTime") Date updateTime);
 }
