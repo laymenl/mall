@@ -1,7 +1,7 @@
 package com.cskaoyan.service.impl;
 
-import com.cskaoyan.bean.AdminPart.Admin;
-import com.cskaoyan.bean.AdminPart.AdminExample;
+import com.cskaoyan.bean.SystemPart.Admin;
+import com.cskaoyan.bean.SystemPart.AdminExample;
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.mapper.AdminMapper;
 import com.cskaoyan.service.AdminService;

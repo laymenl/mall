@@ -1,9 +1,9 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.AdminPart.Role;
+import com.cskaoyan.bean.SystemPart.Role;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
-import com.cskaoyan.bean.AdminPart.VO.OptionVO;
+import com.cskaoyan.bean.SystemPart.VO.OptionVO;
 import com.cskaoyan.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +46,12 @@ public class RoleController {
     @RequestMapping("delete")
     public BaseRespVo delete(@RequestBody Role role){
         roleService.deleteRole(role);
+        return BaseRespVo.ok();
+    }
+
+    @RequestMapping("permissions")
+    public BaseRespVo permissions(String roleId){
+        System.out.println(roleId);
         return BaseRespVo.ok();
     }
 
