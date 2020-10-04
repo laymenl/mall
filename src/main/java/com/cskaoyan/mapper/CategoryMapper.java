@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CategoryMapper {
 
-    List<CategoryVO> getAllCategoryVO();
+    List<CategoryVO> getAllUnDeletedCategoryVO();
 
 
     Integer getPidById(Integer id);

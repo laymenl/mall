@@ -34,4 +34,6 @@ public interface GoodsMapper {
     int updateByPrimaryKeyWithBLOBs(Goods record);
 
     int updateByPrimaryKey(Goods record);
+
+    void setDeletedTrue(Integer id);
 }

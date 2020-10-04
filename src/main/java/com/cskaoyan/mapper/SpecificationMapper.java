@@ -2,6 +2,8 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.GoodsPart.Specification;
 import com.cskaoyan.bean.GoodsPart.SpecificationExample;
+
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +31,6 @@ public interface SpecificationMapper {
     int updateByPrimaryKey(Specification record);
 
     int insertSpecifications(@Param("specifications") List<Specification> specifications, @Param("goodsId") Integer goodsId);
+
+    void setDeletedTrueByGoodsId(@Param("goodsId") Integer goodsId, @Param("updateTime") Date updateTime);
 }
