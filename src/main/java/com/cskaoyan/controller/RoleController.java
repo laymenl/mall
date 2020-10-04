@@ -1,10 +1,12 @@
 package com.cskaoyan.controller;
 
+import com.cskaoyan.bean.AdminPart.Role;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.AdminPart.VO.OptionVO;
 import com.cskaoyan.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,6 +29,24 @@ public class RoleController {
     public BaseRespVo options(){
         List<OptionVO> optionVOList = roleService.queryOptions();
         return BaseRespVo.ok(optionVOList);
+    }
+
+    @RequestMapping("create")
+    public BaseRespVo create(@RequestBody Role role){
+        roleService.createRole(role);
+        return BaseRespVo.ok(role);
+    }
+
+    @RequestMapping("update")
+    public BaseRespVo update(@RequestBody Role role){
+        roleService.updateRole(role);
+        return BaseRespVo.ok(role);
+    }
+
+    @RequestMapping("delete")
+    public BaseRespVo delete(@RequestBody Role role){
+        roleService.deleteRole(role);
+        return BaseRespVo.ok();
     }
 
 }
