@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface GoodsService {
     
-    ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order);
+    ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order, String goodsSn, String name);
 
     CatAndBrandVO catAndBrand();
 
@@ -21,4 +21,6 @@ public interface GoodsService {
     GoodsVO detail(Integer id);
 
     void update(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes);
+
+    void delete(Integer id);
 }

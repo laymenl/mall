@@ -24,8 +24,8 @@ public class GoodsController {
     GoodsService goodsService;
 
     @RequestMapping("list")
-    public BaseRespVo list(Integer page, Integer limit, String sort, String order){
-        ListBean listBean = goodsService.queryGoodsListBean(page, limit, sort, order);
+    public BaseRespVo list(Integer page, Integer limit, String sort, String order, String goodsSn, String name){
+        ListBean listBean = goodsService.queryGoodsListBean(page, limit, sort, order, goodsSn, name);
         return BaseRespVo.ok(listBean);
     }
 
@@ -70,5 +70,11 @@ public class GoodsController {
         return BaseRespVo.ok();
     }
 
+    @RequestMapping("delete")
+    public BaseRespVo delete(@RequestBody Goods goods){
+        Integer id = goods.getId();
+        goodsService.delete(id);
+        return BaseRespVo.ok();
+    }
 
 }
