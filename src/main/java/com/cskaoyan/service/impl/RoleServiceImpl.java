@@ -1,9 +1,9 @@
 package com.cskaoyan.service.impl;
 
 import com.cskaoyan.bean.ListBean;
-import com.cskaoyan.bean.AdminPart.VO.OptionVO;
-import com.cskaoyan.bean.AdminPart.Role;
-import com.cskaoyan.bean.AdminPart.RoleExample;
+import com.cskaoyan.bean.SystemPart.VO.OptionVO;
+import com.cskaoyan.bean.SystemPart.Role;
+import com.cskaoyan.bean.SystemPart.RoleExample;
 import com.cskaoyan.mapper.RoleMapper;
 import com.cskaoyan.service.RoleService;
 import com.github.pagehelper.PageHelper;

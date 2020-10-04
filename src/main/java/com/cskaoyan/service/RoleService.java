@@ -1,8 +1,8 @@
 package com.cskaoyan.service;
 
-import com.cskaoyan.bean.AdminPart.Role;
+import com.cskaoyan.bean.SystemPart.Role;
 import com.cskaoyan.bean.ListBean;
-import com.cskaoyan.bean.AdminPart.VO.OptionVO;
+import com.cskaoyan.bean.SystemPart.VO.OptionVO;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.cskaoyan.bean.AdminPart;
+package com.cskaoyan.bean.SystemPart;
 
 import java.util.Date;
 
