@@ -1,9 +1,9 @@
 package com.cskaoyan.realm;
 
-import com.cskaoyan.bean.AdminPart.Admin;
-import com.cskaoyan.bean.AdminPart.AdminExample;
-import com.cskaoyan.bean.Permission;
-import com.cskaoyan.bean.PermissionExample;
+
+
+import com.cskaoyan.bean.SystemPart.Admin;
+import com.cskaoyan.bean.SystemPart.AdminExample;
 import com.cskaoyan.mapper.AdminMapper;
 import com.cskaoyan.mapper.PermissionMapper;
 import org.apache.shiro.authc.*;
