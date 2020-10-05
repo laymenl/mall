@@ -1,13 +1,13 @@
 package com.cskaoyan.service.impl;
 
+import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.shop.order.Order;
-import com.cskaoyan.bean.stat.StatOrder;
-import com.cskaoyan.bean.stat.StatOrderExample;
-import com.cskaoyan.bean.stat.StatUser;
-import com.cskaoyan.bean.stat.StatUserExample;
+import com.cskaoyan.bean.stat.*;
+import com.cskaoyan.bean.stat.VO.GoodsData;
 import com.cskaoyan.bean.stat.VO.OrderData;
 import com.cskaoyan.bean.stat.VO.StatVO;
 import com.cskaoyan.bean.stat.VO.UserData;
+import com.cskaoyan.mapper.StatGoodsMapper;
 import com.cskaoyan.mapper.StatOrderMapper;
 import com.cskaoyan.mapper.StatUserMapper;
 import com.cskaoyan.service.StatService;
@@ -26,14 +26,15 @@ public class StatServiceImpl implements StatService {
     @Autowired
     StatOrderMapper statOrderMapper;
 
-//    @Autowired
+    @Autowired
+    StatGoodsMapper statGoodsMapper;
 
     @Override
     public StatVO QueryUser() {
         StatUserExample statUserExample = new StatUserExample();
         StatUserExample.Criteria criteria = statUserExample.createCriteria();
         int count = (int) statUserMapper.countByExample(statUserExample);
-        StatVO<UserData> userDataStatData = new StatVO<>();
+        StatVO<UserData> userDataStatVO = new StatVO<>();
         UserData userData = new UserData();
         userData.setUsers(count);
         List<UserData> userData1 = new ArrayList<>();
@@ -41,15 +42,15 @@ public class StatServiceImpl implements StatService {
         userData1.add(userData);
         strings.add("day");
         strings.add("users");
-        userDataStatData.setColumns(strings);
-        userDataStatData.setRows(userData1);
-        return userDataStatData;
+        userDataStatVO.setColumns(strings);
+        userDataStatVO.setRows(userData1);
+        return userDataStatVO;
     }
 
     @Override
     public StatVO QueryOrder() {
 
-        StatVO<OrderData> orderDataStatData = new StatVO<>();
+        StatVO<OrderData> orderDataStatVO = new StatVO<>();
         OrderData orderData1 = new OrderData();
         OrderData orderData2 = new OrderData();
         OrderData orderData3 = new OrderData();
@@ -74,9 +75,9 @@ public class StatServiceImpl implements StatService {
         strings.add("customers");
         strings.add("amount");
         strings.add("pcr");
-        orderDataStatData.setColumns(strings);
-        orderDataStatData.setRows(orderData);
-        return orderDataStatData;
+        orderDataStatVO.setColumns(strings);
+        orderDataStatVO.setRows(orderData);
+        return orderDataStatVO;
     }
 
     private void queryOrders(OrderData orderData, StatOrderExample statOrderExample, StatOrderExample.Criteria criteria) {
@@ -98,20 +99,53 @@ public class StatServiceImpl implements StatService {
 
     @Override
     public StatVO QueryGoods() {
-        StatUserExample statUserExample = new StatUserExample();
-        StatUserExample.Criteria criteria = statUserExample.createCriteria();
-        int count = (int) statUserMapper.countByExample(statUserExample);
-        StatVO<UserData> userDataStatData = new StatVO<>();
-        UserData userData = new UserData();
-        userData.setUsers(count);
-        List<UserData> userData1 = new ArrayList<>();
+        StatVO<GoodsData> goodsDataStatVO = new StatVO<>();
+        GoodsData goodsData1 = new GoodsData();
+        GoodsData goodsData2 = new GoodsData();
+        GoodsData goodsData3 = new GoodsData();
+        GoodsData goodsData4 = new GoodsData();
+        StatGoodsExample statGoodsExample = new StatGoodsExample();
+        StatGoodsExample.Criteria criteria = statGoodsExample.createCriteria();
+        criteria.andAddTimeBetween("2020-04-27 00:00:00","2020-04-28 00:00:00");
+        queryGoods(goodsData1, statGoodsExample, criteria);
+        goodsData1.setDay("2020-04-27");
+        criteria.andAddTimeBetween("2020-10-01 00:00:00","2020-10-02 00:00:00");
+        queryGoods(goodsData2, statGoodsExample, criteria);
+        goodsData2.setDay("2020-10-01");
+        criteria.andAddTimeBetween("2020-10-02 00:00:00","2020-10-03 00:00:00");
+        queryGoods(goodsData3, statGoodsExample, criteria);
+        goodsData3.setDay("2020-10-02");
+        criteria.andAddTimeBetween("2020-10-05 00:00:00","2020-10-06 00:00:00");
+        queryGoods(goodsData4, statGoodsExample, criteria);
+        goodsData4.setDay("2020-10-05");
+        List<GoodsData> goodsData = new ArrayList<>();
         ArrayList<String> strings = new ArrayList<>();
-        userData1.add(userData);
+        goodsData.add(goodsData1);
+        goodsData.add(goodsData2);
+        goodsData.add(goodsData3);
+        goodsData.add(goodsData4);
         strings.add("day");
-        strings.add("users");
-        userDataStatData.setColumns(strings);
-        userDataStatData.setRows(userData1);
-        return userDataStatData;
+        strings.add("orders");
+        strings.add("products");
+        strings.add("amount");
+        goodsDataStatVO.setColumns(strings);
+        goodsDataStatVO.setRows(goodsData);
+        return goodsDataStatVO;
+    }
+
+    private void queryGoods(GoodsData goodsData, StatGoodsExample statGoodsExample, StatGoodsExample.Criteria criteria) {
+        List<StatGoods> statGoods = statGoodsMapper.selectByExample(statGoodsExample);
+        Double amount = 0.0;
+        Integer orders = 0;
+        for (StatGoods statGood : statGoods) {
+            amount += statGood.getPrice().doubleValue();
+            orders ++;
+        }
+        long products = statGoodsMapper.countDistinctProducts(statGoodsExample);
+        goodsData.setAmount(amount);
+        goodsData.setProducts((int) products);
+        goodsData.setOrders(orders);
+        criteria.getAllCriteria().clear();
     }
 
 }
