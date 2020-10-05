@@ -1,4 +1,4 @@
-package com.cskaoyan.bean.AdminPart.VO;
+package com.cskaoyan.bean.SystemPart.VO;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.cskaoyan.service;
 
-import com.cskaoyan.bean.AdminPart.Admin;
+import com.cskaoyan.bean.SystemPart.Admin;
 import com.cskaoyan.bean.ListBean;
 
 

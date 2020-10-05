@@ -1,8 +1,8 @@
 package com.cskaoyan.mapper;
 
-import com.cskaoyan.bean.AdminPart.VO.OptionVO;
-import com.cskaoyan.bean.AdminPart.Role;
-import com.cskaoyan.bean.AdminPart.RoleExample;
+import com.cskaoyan.bean.SystemPart.VO.OptionVO;
+import com.cskaoyan.bean.SystemPart.Role;
+import com.cskaoyan.bean.SystemPart.RoleExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
