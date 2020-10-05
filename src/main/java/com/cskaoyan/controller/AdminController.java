@@ -1,6 +1,6 @@
 package com.cskaoyan.controller;
 
-import com.cskaoyan.bean.AdminPart.Admin;
+import com.cskaoyan.bean.SystemPart.Admin;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.service.AdminService;
@@ -38,5 +38,6 @@ public class AdminController {
         adminService.deleteAdmin(admin);
         return BaseRespVo.ok();
     }
+
 
 }
