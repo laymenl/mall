@@ -1,4 +1,4 @@
-package com.cskaoyan.promoteModule.grouponManage.controller;
+package com.cskaoyan.controller.admin.promoteController;
 
 
 import com.cskaoyan.promoteModule.grouponManage.bean.BaseRespVo;
@@ -49,7 +49,7 @@ public class GrouponRulesController {
     @RequestMapping("delete")
     public BaseRespVo delete(@RequestBody GrouponRules grouponRules){
         int status = grouponRulesService.delete(grouponRules);
-        return status == 1?BaseRespVo.ok():BaseRespVo.fail("delete error");
+        return status == 1? BaseRespVo.ok(): BaseRespVo.fail("delete error");
     }
 }
 

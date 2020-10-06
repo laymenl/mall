@@ -1,4 +1,4 @@
-package com.cskaoyan.promoteModule.adManage.controller;
+package com.cskaoyan.controller.admin.promoteController;
 
 import com.cskaoyan.promoteModule.adManage.bean.Ad;
 import com.cskaoyan.promoteModule.adManage.bean.BaseRespVo;
@@ -42,6 +42,6 @@ public class AdController {
     @RequestMapping("delete")
     public BaseRespVo delete(@RequestBody Ad ad){
         int status = adService.delete(ad);
-        return status == 1?BaseRespVo.ok():BaseRespVo.fail("delete error");
+        return status == 1? BaseRespVo.ok(): BaseRespVo.fail("delete error");
     }
 }

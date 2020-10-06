@@ -1,4 +1,4 @@
-package com.cskaoyan.promoteModule.topicManage.controller;
+package com.cskaoyan.controller.admin.promoteController;
 
 
 import com.cskaoyan.promoteModule.topicManage.bean.BaseRespVo;
@@ -43,7 +43,7 @@ public class TopicController {
     @RequestMapping("delete")
     public BaseRespVo delete(@RequestBody Topic topic){
         int status = topicService.delete(topic);
-        return status == 1?BaseRespVo.ok():BaseRespVo.fail("delete error");
+        return status == 1? BaseRespVo.ok(): BaseRespVo.fail("delete error");
     }
 }
 

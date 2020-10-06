@@ -4,8 +4,12 @@ package com.cskaoyan.shiro;
 
 import com.cskaoyan.bean.SystemPart.Admin;
 import com.cskaoyan.bean.SystemPart.AdminExample;
+import com.cskaoyan.bean.User;
+import com.cskaoyan.bean.UserExample;
+import com.cskaoyan.bean.wxvo.UserInfoVO;
 import com.cskaoyan.mapper.AdminMapper;
 import com.cskaoyan.mapper.PermissionMapper;
+import com.cskaoyan.mapper.UserMapper;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
