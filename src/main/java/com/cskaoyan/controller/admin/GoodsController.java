@@ -1,4 +1,4 @@
-package com.cskaoyan.controller;
+package com.cskaoyan.controller.admin;
 
 import com.cskaoyan.bean.GoodsPart.Attribute;
 import com.cskaoyan.bean.GoodsPart.VO.GoodsVO;
