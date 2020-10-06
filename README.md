@@ -1,7 +1,5 @@
 # mall
 
-
-
 # application.yml
 
 application.yml在gitignore中，避免数据库、文件路径等自定义配置冲突
@@ -63,3 +61,21 @@ storage:
 ```
 
 storage.path 要和 spring.resources.static-locations中的路径一致。
+
+# 小程序权限验证
+
+# 账号密码
+
+登陆用默认的用户名是test1、test2、test3，密码与用户名一致；或者在user表中自己创建一条记录设置账号密码也可以登录
+
+
+
+## 通过token获取用户信息的方法
+
+```java
+       Subject subject = SecurityUtils.getSubject();
+       String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+```
+
+
+
