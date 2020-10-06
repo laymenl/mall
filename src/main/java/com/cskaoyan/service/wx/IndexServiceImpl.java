@@ -54,7 +54,7 @@ public class IndexServiceImpl implements IndexService{
         couponExample.createCriteria().andDeletedEqualTo(false);
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
         CategoryExample categoryExample = new CategoryExample();
-        categoryExample.createCriteria().andDeletedEqualTo(false);
+        categoryExample.createCriteria().andDeletedEqualTo(false).andLevelEqualTo("L1");
         List<Category> channel = categoryMapper.selectByExample(categoryExample);
         AdExample adExample = new AdExample();
         adExample.createCriteria().andDeletedEqualTo(false);
