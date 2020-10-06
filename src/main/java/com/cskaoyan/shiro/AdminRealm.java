@@ -1,4 +1,4 @@
-package com.cskaoyan.realm;
+package com.cskaoyan.shiro;
 
 
 
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 
 @Component
-public class CustomRealm extends AuthorizingRealm {
+public class AdminRealm extends AuthorizingRealm {
 
     @Autowired
     AdminMapper adminMapper;
