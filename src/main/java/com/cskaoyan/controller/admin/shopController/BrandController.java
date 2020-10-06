@@ -1,4 +1,4 @@
-package com.cskaoyan.controller.shopController;
+package com.cskaoyan.controller.admin.shopController;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;

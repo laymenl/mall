@@ -1,8 +1,7 @@
-package com.cskaoyan.controller.shopController;
+package com.cskaoyan.controller.admin.shopController;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
-import com.cskaoyan.bean.shop.issue.Issue;
 import com.cskaoyan.bean.shop.keyword.Keyword;
 import com.cskaoyan.service.shopService.KeywordService;
 import org.springframework.beans.factory.annotation.Autowired;

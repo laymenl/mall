@@ -25,6 +25,7 @@ public class ShrioConfig {
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/admin/auth/login", "anon");
         //todo put wx/login
+        filterMap.put("/wx/**", "anon");
         filterMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
         return shiroFilterFactoryBean;

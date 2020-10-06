@@ -1,4 +1,4 @@
-package com.cskaoyan.controller;
+package com.cskaoyan.controller.admin;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
