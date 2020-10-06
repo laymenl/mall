@@ -3,6 +3,7 @@ package com.cskaoyan.controller;
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.DataBean;
 import com.cskaoyan.bean.User;
+import com.cskaoyan.shiro.MallToken;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -22,15 +23,14 @@ public class AuthenticateController {
     @RequestMapping("login")
     public BaseRespVo login(@RequestBody User user) {
         Subject subject = SecurityUtils.getSubject();
+        MallToken token = new MallToken(user.getUsername(), user.getPassword(), "admin");
         try {
-            subject.login(new UsernamePasswordToken(user.getUsername(), user.getPassword()));
+            subject.login(token);
         } catch (AuthenticationException e) {
             return BaseRespVo.fail("登陆失败，请检查账号和密码");
-//            e.printStackTrace();
         }
         String id = (String) subject.getSession().getId();
         return BaseRespVo.ok(id);
-//        return BaseRespVo.ok("4e295462-c349-461a-8e79-e8147ca1ff1a");
     }
 
     @RequestMapping("logout")
