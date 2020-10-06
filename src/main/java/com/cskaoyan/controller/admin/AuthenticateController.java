@@ -2,6 +2,7 @@ package com.cskaoyan.controller.admin;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.DataBean;
+import com.cskaoyan.bean.SystemPart.Admin;
 import com.cskaoyan.bean.User;
 import com.cskaoyan.shiro.MallToken;
 import org.apache.shiro.SecurityUtils;
@@ -21,9 +22,9 @@ import java.util.ArrayList;
 public class AuthenticateController {
 
     @RequestMapping("login")
-    public BaseRespVo login(@RequestBody User user) {
+    public BaseRespVo login(@RequestBody Admin admin) {
         Subject subject = SecurityUtils.getSubject();
-        MallToken token = new MallToken(user.getUsername(), user.getPassword(), "admin");
+        MallToken token = new MallToken(admin.getUsername(), admin.getPassword(), "admin");
         try {
             subject.login(token);
         } catch (AuthenticationException e) {
