@@ -31,9 +31,8 @@ public class WxFeedBackServiceImpl implements WxFeedBackService{
     public int submit(UserFeedback userFeedback) {
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+        String username = (String) subject.getPrincipal();
 
-        String username = "test1";
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
