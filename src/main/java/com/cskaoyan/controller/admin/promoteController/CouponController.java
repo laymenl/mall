@@ -1,4 +1,4 @@
-package com.cskaoyan.promoteModule.couponManage.controller;
+package com.cskaoyan.controller.admin.promoteController;
 
 import com.cskaoyan.promoteModule.couponManage.bean.BaseRespVo;
 import com.cskaoyan.promoteModule.couponManage.bean.Coupon;
@@ -42,7 +42,7 @@ public class CouponController {
     @RequestMapping("delete")
     public BaseRespVo delete(@RequestBody Coupon coupon){
         int status = couponService.delete(coupon);
-        return status == 1?BaseRespVo.ok():BaseRespVo.fail("delete error");
+        return status == 1? BaseRespVo.ok(): BaseRespVo.fail("delete error");
     }
 }
 
