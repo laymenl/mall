@@ -90,9 +90,7 @@ public class WxCouponServiceImpl implements WxCouponService {
         PageHelper.startPage(page, size);
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-
-        String username = "test1";
+        String username = (String) subject.getPrincipal();
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
@@ -131,9 +129,7 @@ public class WxCouponServiceImpl implements WxCouponService {
 
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-
-        String username = "test1";
+        String username = (String) subject.getPrincipal();
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
@@ -179,9 +175,7 @@ public class WxCouponServiceImpl implements WxCouponService {
 
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-
-        String username = "test1";
+        String username = (String) subject.getPrincipal();
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
@@ -219,9 +213,7 @@ public class WxCouponServiceImpl implements WxCouponService {
         Coupon coupon = couponMapper.selectByExample(couponExample).get(0);
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-
-        String username = "test1";
+        String username = (String) subject.getPrincipal();
 
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);

@@ -52,10 +52,7 @@ public class WxFootPrintServiceImpl implements WxFootPrintService {
         List<WxFootprintVo> wxFootprintVoList = new ArrayList<>();
 
         Subject subject = SecurityUtils.getSubject();
-        //String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-
-        String username = "test1";
-
+        String username = (String) subject.getPrincipal();
         UserExample userExample = new UserExample();
         userExample.createCriteria().andUsernameEqualTo(username);
         User user = userMapper.selectByExample(userExample).get(0);
