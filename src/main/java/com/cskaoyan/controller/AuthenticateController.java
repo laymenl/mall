@@ -19,7 +19,6 @@ import java.util.ArrayList;
 @RequestMapping("admin/auth")
 public class AuthenticateController {
 
-    @ResponseBody
     @RequestMapping("login")
     public BaseRespVo login(@RequestBody User user) {
         Subject subject = SecurityUtils.getSubject();
@@ -32,6 +31,13 @@ public class AuthenticateController {
         String id = (String) subject.getSession().getId();
         return BaseRespVo.ok(id);
 //        return BaseRespVo.ok("4e295462-c349-461a-8e79-e8147ca1ff1a");
+    }
+
+    @RequestMapping("logout")
+    public BaseRespVo logout(){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        return BaseRespVo.ok();
     }
 
     @RequestMapping("info")
