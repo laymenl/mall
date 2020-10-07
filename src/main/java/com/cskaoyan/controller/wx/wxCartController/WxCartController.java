@@ -2,6 +2,7 @@ package com.cskaoyan.controller.wx.wxCartController;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.wxvo.cart.Cart;
+import com.cskaoyan.bean.wxvo.cart.CartBO;
 import com.cskaoyan.bean.wxvo.cart.CartListBean;
 import com.cskaoyan.service.wx.WxCartService;
 import org.apache.shiro.SecurityUtils;
@@ -35,5 +36,21 @@ public class WxCartController {
     public BaseRespVo update(@RequestBody Cart cart){
         wxCartService.update(cart);
         return BaseRespVo.ok();
+    }
+
+    @RequestMapping("checked")
+    public BaseRespVo checked(@RequestBody CartBO cartBO){
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+        CartListBean cartListBean = wxCartService.checked(cartBO,username);
+        return BaseRespVo.ok(cartListBean);
+    }
+
+    @RequestMapping("delete")
+    public BaseRespVo delete(@RequestBody CartBO cartBO){
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+        CartListBean cartListBean = wxCartService.delete(cartBO,username);
+        return BaseRespVo.ok(cartListBean);
     }
 }
