@@ -2,6 +2,8 @@ package com.cskaoyan.service.impl.shopImpl;
 
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.shop.order.*;
+import com.cskaoyan.bean.wxvo.UserIndexVO;
+import com.cskaoyan.bean.wxvo.UserInfoVO;
 import com.cskaoyan.mapper.shopMapper.OrderGoodsMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.OrderMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.UserMapper4Shop;
@@ -99,5 +101,23 @@ public class OrderServiceImpl implements OrderService {
         orderExample.createCriteria().andIdEqualTo(refundBO.getOrderId());
 
         orderMapper4Shop.updateByExampleSelective(record,orderExample);
+    }
+
+    @Override
+    public UserIndexVO wxUserIndex() {
+        OrderExample upaidOrderExample = new OrderExample();
+        upaidOrderExample.createCriteria().andOrderStatusEqualTo((short)101);
+        OrderExample unshipOrderExample = new OrderExample();
+        unshipOrderExample.createCriteria().andOrderStatusEqualTo((short)201);
+        OrderExample unrecvOrderExample = new OrderExample();
+        unrecvOrderExample.createCriteria().andOrderStatusEqualTo((short)301);
+        OrderExample uncommentOrderExample = new OrderExample();
+        uncommentOrderExample.createCriteria().andOrderStatusEqualTo((short)401);
+        int upaid = (int) orderMapper4Shop.countByExample(upaidOrderExample);
+        int unshipped = (int) orderMapper4Shop.countByExample(unshipOrderExample);
+        int unrecv = (int) orderMapper4Shop.countByExample(unrecvOrderExample);
+        int uncomment = (int) orderMapper4Shop.countByExample(uncommentOrderExample);
+        UserIndexVO userIndexVO = new UserIndexVO(unrecv, uncomment, upaid, unshipped);
+        return userIndexVO;
     }
 }

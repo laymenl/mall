@@ -6,7 +6,7 @@ import com.cskaoyan.bean.shop.brand.Brand;
 import com.cskaoyan.bean.shop.brand.BrandExample;
 import com.cskaoyan.bean.shop.category.Category;
 import com.cskaoyan.bean.shop.category.CategoryExample;
-import com.cskaoyan.bean.wxvo.IndexVO;
+import com.cskaoyan.bean.wxvo.HomeIndexVO;
 import com.cskaoyan.mapper.GoodsMapper;
 import com.cskaoyan.mapper.promoteModule.AdMapper;
 import com.cskaoyan.mapper.promoteModule.CouponMapper;
@@ -46,7 +46,7 @@ public class IndexServiceImpl implements IndexService{
     TopicMapper topicMapper;
 
     @Override
-    public IndexVO index() {
+    public HomeIndexVO index() {
         GoodsExample newGoodsExample = new GoodsExample();
         newGoodsExample.createCriteria().andIsNewEqualTo(true).andDeletedEqualTo(false);
         List<Goods> newGoods = goodsMapper.selectByExample(newGoodsExample);
@@ -69,7 +69,7 @@ public class IndexServiceImpl implements IndexService{
         topicExample.createCriteria().andDeletedEqualTo(false);
         List<Topic> topicList = topicMapper.selectByExample(topicExample);
         //todo grouponlist and floorGoodsList
-        IndexVO indexVO = new IndexVO(newGoods, coupons, channel, null, banner, brandList, hotGoodsList, topicList, null);
-        return indexVO;
+        HomeIndexVO homeIndexVO = new HomeIndexVO(newGoods, coupons, channel, null, banner, brandList, hotGoodsList, topicList, null);
+        return homeIndexVO;
     }
 }
