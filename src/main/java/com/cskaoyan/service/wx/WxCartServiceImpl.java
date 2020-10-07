@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.security.auth.Subject;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -47,6 +48,22 @@ public class WxCartServiceImpl implements WxCartService{
         cartListBean.setCartTotal(cartTotal);
         cartListBean.setCartList(carts);
         return cartListBean;
+    }
+
+    @Override
+    public void update(Cart record) {
+        Cart cart = cartMapper.selectByPrimaryKey(record.getId());
+        //计算总价
+        int price = cart.getPrice().intValue();
+        short cartNum = cart.getNumber();
+        short recNum = record.getNumber();
+        BigDecimal finalPrice = BigDecimal.valueOf(price/cartNum*recNum);
+
+        cart.setPrice(finalPrice);
+        cart.setNumber(record.getNumber());
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andIdEqualTo(record.getId());
+        cartMapper.updateByExampleSelective(cart,cartExample);
     }
 
     private Integer getUserId(String username) {
