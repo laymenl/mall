@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class IndexVO {
+public class HomeIndexVO {
     List<Goods> newGoodsList;
     List<Coupon> couponList;
     List<Category> channel;
