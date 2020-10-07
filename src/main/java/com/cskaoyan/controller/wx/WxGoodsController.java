@@ -5,6 +5,7 @@ import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.wxvo.GoodsCategoryVO;
 import com.cskaoyan.bean.wxvo.GoodsCountVO;
 import com.cskaoyan.bean.wxvo.GoodsDetailVO;
+import com.cskaoyan.bean.wxvo.GoodsListVO;
 import com.cskaoyan.service.GoodsService;
 import com.cskaoyan.service.shopService.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,15 @@ public class WxGoodsController {
         return BaseRespVo.ok(categoryVO);
     }
 
+    //categoryId: 1005010
+    //page: 1
+    //size: 100
+    @RequestMapping("list")
+    public BaseRespVo list(Integer categoryId, Integer page, Integer size){
+        GoodsListVO goodsListVO = goodsService.list(categoryId, page, size);
+        return BaseRespVo.ok(goodsListVO);
+    }
+
     @RequestMapping("detail")
     public BaseRespVo detail(int id){
         GoodsDetailVO goodsDetailVO = goodsService.wxDetail(id);
@@ -45,7 +55,5 @@ public class WxGoodsController {
         List<Goods> goodsList = goodsService.related(id);
         return BaseRespVo.ok(goodsList);
     }
-
-
 
 }
