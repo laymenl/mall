@@ -3,6 +3,8 @@ package com.cskaoyan.mapper;
 import com.cskaoyan.bean.GoodsPart.Goods;
 import com.cskaoyan.bean.GoodsPart.GoodsExample;
 import java.util.List;
+
+import com.cskaoyan.bean.wxvo.CommentInfo;
 import org.apache.ibatis.annotations.Param;
 
 public interface GoodsMapper {
@@ -36,4 +38,6 @@ public interface GoodsMapper {
     int updateByPrimaryKey(Goods record);
 
     void setDeletedTrue(Integer id);
+
+    List<CommentInfo> commentVOSelect(int id);
 }

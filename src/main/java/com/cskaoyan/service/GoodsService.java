@@ -7,6 +7,7 @@ import com.cskaoyan.bean.GoodsPart.Product;
 import com.cskaoyan.bean.GoodsPart.Specification;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.wxvo.GoodsDetailVO;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface GoodsService {
     void update(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes);
 
     void delete(Integer id);
+
+    int countTotal();
+
+    List<Goods> related(Integer id);
+
+    GoodsDetailVO wxDetail(int id);
 }

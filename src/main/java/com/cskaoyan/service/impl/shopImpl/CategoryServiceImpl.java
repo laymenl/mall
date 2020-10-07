@@ -4,6 +4,7 @@ import com.cskaoyan.bean.shop.category.Category;
 import com.cskaoyan.bean.shop.category.CategoryExample;
 import com.cskaoyan.bean.shop.category.CategoryL1VO;
 import com.cskaoyan.bean.shop.category.L1CategoryVO;
+import com.cskaoyan.bean.wxvo.GoodsCategoryVO;
 import com.cskaoyan.mapper.shopMapper.CategoryMapper4Shop;
 import com.cskaoyan.service.shopService.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,5 +61,49 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.createCriteria().andIdEqualTo(category.getId());
         categoryMapper4Shop.deleteByExample(categoryExample);
+    }
+
+    @Override
+    public GoodsCategoryVO wxGoodsCategory(Integer id) {
+        Category currentCategory = getCategoryById(id);
+        if(currentCategory.getLevel().equals("L1")){
+            List<Category>  childCategoryList = getChildCatesById(id);
+            currentCategory = childCategoryList.get(0);
+        }
+        Category parentCategory = getParentCategory(currentCategory);
+        List<Category> brotherCategories = getBrotherCategory(currentCategory);
+        return new GoodsCategoryVO(currentCategory,brotherCategories,parentCategory);
+    }
+
+    private List<Category> getBrotherCategory(Category currentCategory) {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andPidEqualTo(currentCategory.getPid())
+                .andIdNotEqualTo(currentCategory.getId());
+        List<Category> categoryList = categoryMapper4Shop.selectByExample(categoryExample);
+        return categoryList;
+    }
+
+    private List<Category> getChildCatesById(Integer id) {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andPidEqualTo(id);
+        List<Category> categories = categoryMapper4Shop.selectByExample(categoryExample);
+        return categories;
+    }
+    /*
+    * 通过category的id
+    * */
+    private Category getCategoryById(Integer id) {
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andIdEqualTo(id);
+        List<Category> categories = categoryMapper4Shop.selectByExample(categoryExample);
+        return categories.get(0);
+    }
+
+    private Category getParentCategory(Category category){
+        Integer pid = category.getPid();
+        CategoryExample CategoryExample = new CategoryExample();
+        CategoryExample.createCriteria().andIdEqualTo(pid);
+        List<Category> parentCategories = categoryMapper4Shop.selectByExample(CategoryExample);
+        return parentCategories.get(0);
     }
 }

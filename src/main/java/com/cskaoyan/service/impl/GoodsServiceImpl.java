@@ -6,7 +6,18 @@ import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CategoryVO;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.collect.UserCollectExample;
+import com.cskaoyan.bean.shop.brand.Brand;
+import com.cskaoyan.bean.shop.brand.BrandExample;
+import com.cskaoyan.bean.shop.issue.Issue;
+import com.cskaoyan.bean.shop.issue.IssueExample;
+import com.cskaoyan.bean.wxvo.CommentEntity;
+import com.cskaoyan.bean.wxvo.CommentInfo;
+import com.cskaoyan.bean.wxvo.GoodsDetailVO;
+import com.cskaoyan.bean.wxvo.SpecificationListEntity;
 import com.cskaoyan.mapper.*;
+import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
+import com.cskaoyan.mapper.shopMapper.IssueMapper4Shop;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,8 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class GoodsServiceImpl implements GoodsService {
@@ -38,6 +48,14 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     BrandMapper brandMapper;
 
+    @Autowired
+    BrandMapper4Shop brandMapper4Shop;
+
+    @Autowired
+    IssueMapper4Shop issueMapper;
+
+    @Autowired
+    UserCollectMapper collectMapper;
 
     @Override
     public ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order, String goodsSn, String name) {
@@ -154,6 +172,73 @@ public class GoodsServiceImpl implements GoodsService {
     @Transactional
     public void delete(Integer id) {
         goodsMapper.setDeletedTrue(id);
+    }
+
+    @Override
+    public int countTotal() {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andDeletedEqualTo(false);
+        int count = (int) goodsMapper.countByExample(goodsExample);
+        return count;
+    }
+
+    @Override
+    public List<Goods> related(Integer id) {
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andIdEqualTo(id);
+        List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
+        Goods goods = goodsList.get(0);
+        GoodsExample relatedGoodsExample = new GoodsExample();
+        relatedGoodsExample.createCriteria().andCategoryIdEqualTo(goods.getCategoryId());
+        List<Goods> relatedGoodsList = goodsMapper.selectByExample(goodsExample);
+        return relatedGoodsList;
+    }
+
+    @Override
+    public GoodsDetailVO wxDetail(int id) {
+        SpecificationExample specificationExample = new SpecificationExample();
+        specificationExample.createCriteria().andGoodsIdEqualTo(id);
+        List<Specification> specifications = specificationMapper.selectByExample(specificationExample);
+        HashSet<String> set = new HashSet<>();
+        for (Specification specification : specifications) {
+            set.add(specification.getSpecification());
+        }
+        List<SpecificationListEntity> specificationListEntities = new ArrayList<SpecificationListEntity>();
+        for (String s : set) {
+            SpecificationListEntity specificationListEntity = new SpecificationListEntity();
+            specificationListEntity.setName(s);
+            SpecificationExample specificationExample1 = new SpecificationExample();
+            specificationExample1.createCriteria().andGoodsIdEqualTo(id).andSpecificationEqualTo(s);
+            List<Specification> specifications1 = specificationMapper.selectByExample(specificationExample);
+            specificationListEntity.setValueList(specifications1);
+            specificationListEntities.add(specificationListEntity);
+        }
+        List<Issue> issues = issueMapper.selectByExample(new IssueExample());
+        UserCollectExample collectExample = new UserCollectExample();
+        collectExample.createCriteria().andValueIdEqualTo(id);
+        int userHasCollect = (int) collectMapper.countByExample(collectExample);
+        CommentEntity commentEntity = new CommentEntity();
+        List<CommentInfo> commentList = goodsMapper.commentVOSelect(id);
+        commentEntity.setData(commentList);
+        commentEntity.setCount(commentList.size());
+        AttributeExample attributeExample = new AttributeExample();
+        attributeExample.createCriteria().andGoodsIdEqualTo(id);
+        List<Attribute> attributes = attributeMapper.selectByExample(attributeExample);
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andIdEqualTo(id);
+        List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
+        Goods info = goodsList.get(0);
+        BrandExample brandExample = new BrandExample();
+        brandExample.createCriteria().andIdEqualTo(info.getBrandId());
+        List<Brand> brands = brandMapper4Shop.selectByExample(brandExample);
+        Brand brand = brands.size() > 0 ? brands.get(0) : null;
+        ProductExample productExample = new ProductExample();
+        productExample.createCriteria().andGoodsIdEqualTo(id);
+        List<Product> products = productMapper.selectByExample(productExample);
+        GoodsDetailVO goodsDetailVO = new GoodsDetailVO(specificationListEntities, null, issues, userHasCollect,
+                commentEntity, attributes, brand, products, info);
+
+        return goodsDetailVO;
     }
 
 }
