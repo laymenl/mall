@@ -295,7 +295,15 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="commentVOSelect" resultType="com.cskaoyan.bean.wxvo.CommentInfo">
+      select comment.add_time as addTime, comment.pic_urls as picList,
+        user.nickname, comment.id, user.avatar, comment.content
+      from cskaoyanmall_comment comment
+      left join cskaoyanmall_order_goods goods on goods.comment = comment.id
+      left join cskaoyanmall_user user on user.id = comment.user_id
+      where goods.id = #{id}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_goods
     <set>
       <if test="record.id != null">
