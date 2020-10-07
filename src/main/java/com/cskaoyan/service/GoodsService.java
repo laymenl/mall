@@ -8,6 +8,7 @@ import com.cskaoyan.bean.GoodsPart.Specification;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.wxvo.GoodsDetailVO;
+import com.cskaoyan.bean.wxvo.GoodsListVO;
 
 import java.util.List;
 
@@ -30,4 +31,6 @@ public interface GoodsService {
     List<Goods> related(Integer id);
 
     GoodsDetailVO wxDetail(int id);
+
+    GoodsListVO list(Integer categoryId, Integer page, Integer size);
 }

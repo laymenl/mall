@@ -9,14 +9,14 @@ import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.collect.UserCollectExample;
 import com.cskaoyan.bean.shop.brand.Brand;
 import com.cskaoyan.bean.shop.brand.BrandExample;
+import com.cskaoyan.bean.shop.category.Category;
+import com.cskaoyan.bean.shop.category.CategoryExample;
 import com.cskaoyan.bean.shop.issue.Issue;
 import com.cskaoyan.bean.shop.issue.IssueExample;
-import com.cskaoyan.bean.wxvo.CommentEntity;
-import com.cskaoyan.bean.wxvo.CommentInfo;
-import com.cskaoyan.bean.wxvo.GoodsDetailVO;
-import com.cskaoyan.bean.wxvo.SpecificationListEntity;
+import com.cskaoyan.bean.wxvo.*;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
+import com.cskaoyan.mapper.shopMapper.CategoryMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.IssueMapper4Shop;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
@@ -56,6 +56,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     UserCollectMapper collectMapper;
+
+    @Autowired
+    CategoryMapper4Shop categoryMapper4Shop;
 
     @Override
     public ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order, String goodsSn, String name) {
@@ -239,6 +242,21 @@ public class GoodsServiceImpl implements GoodsService {
                 commentEntity, attributes, brand, products, info);
 
         return goodsDetailVO;
+    }
+
+    @Override
+    public GoodsListVO list(Integer categoryId, Integer page, Integer size) {
+        GoodsListVO goodsListVO = new GoodsListVO();
+        GoodsExample goodsExample = new GoodsExample();
+        goodsExample.createCriteria().andCategoryIdEqualTo(categoryId).andDeletedEqualTo(false);
+        List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
+        CategoryExample categoryExample = new CategoryExample();
+        categoryExample.createCriteria().andDeletedEqualTo(false).andLevelEqualTo("L2");
+        List<Category> categoryList = categoryMapper4Shop.selectByExample(categoryExample);
+        goodsListVO.setGoodsList(goodsList);
+        goodsListVO.setCount(goodsList.size());
+        goodsListVO.setFilterCategoryList(categoryList);
+        return goodsListVO;
     }
 
 }
