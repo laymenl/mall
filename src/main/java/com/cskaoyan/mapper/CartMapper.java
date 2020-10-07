@@ -31,9 +31,9 @@ public interface CartMapper {
 
     int getGoodsCount(@Param("userId") Integer userId);
 
-    int getCheckedGoodsCount(@Param("userId") Integer userId);
+    Integer getCheckedGoodsCount(@Param("userId") Integer userId);
 
     int getGoodsAmount(@Param("userId") Integer userId);
 
-    int getCheckedGoodsAmount(@Param("userId") Integer userId);
+    Integer getCheckedGoodsAmount(@Param("userId") Integer userId);
 }
