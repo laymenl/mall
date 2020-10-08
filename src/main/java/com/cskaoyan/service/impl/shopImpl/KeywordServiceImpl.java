@@ -88,12 +88,11 @@ public class KeywordServiceImpl implements KeywordService {
         List<Keyword> hotKeywords = keywordMapper4Shop.selectByExample(keywordExample);
         Keyword defaultKeyword = hotKeywords.size() > 0 ? hotKeywords.get(0) : null;
         Subject subject = SecurityUtils.getSubject();
-        List<String> historyKeywordsList = null;
+        List<Keyword> historyKeywordsList = null;
         if(subject.isAuthenticated()){
             String username = (String) subject.getPrincipals().getPrimaryPrincipal();
             historyKeywordsList = userSearchHistoryMapper.selectSearchHistoryByUsername(username);
         }
-
         return new SerachIndexVO(defaultKeyword, hotKeywords, historyKeywordsList);
     }
 

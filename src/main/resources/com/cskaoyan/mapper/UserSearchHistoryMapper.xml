@@ -103,7 +103,7 @@
   </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.history.UserSearchHistory">
     insert into cskaoyanmall_search_history (id, user_id, keyword, 
-      from, add_time, update_time, 
+      `from`, add_time, update_time,
       deleted)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{keyword,jdbcType=VARCHAR}, 
       #{from,jdbcType=VARCHAR}, #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -164,8 +164,8 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectSearchHistoryByUsername" resultType="java.lang.String">
-    select history.keyword from cskaoyanmall_search_history history
+  <select id="selectSearchHistoryByUsername" resultType="com.cskaoyan.bean.shop.keyword.Keyword">
+    select history.* from cskaoyanmall_search_history history
     left join cskaoyanmall_user user
     on history.user_id = user.id
     where user.username = #{username} and history.deleted = false

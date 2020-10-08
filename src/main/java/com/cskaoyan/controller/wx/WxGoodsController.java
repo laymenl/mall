@@ -39,8 +39,8 @@ public class WxGoodsController {
     //page: 1
     //size: 100
     @RequestMapping("list")
-    public BaseRespVo list(Integer categoryId, Integer page, Integer size){
-        GoodsListVO goodsListVO = goodsService.list(categoryId, page, size);
+    public BaseRespVo list(Integer categoryId, Integer page, Integer size, String sort, String order, String keyword){
+        GoodsListVO goodsListVO = goodsService.list(categoryId, page, size, sort, order, keyword);
         return BaseRespVo.ok(goodsListVO);
     }
 

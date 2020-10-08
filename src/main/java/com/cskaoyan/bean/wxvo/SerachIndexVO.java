@@ -14,6 +14,6 @@ public class SerachIndexVO {
 
     private Keyword defaultKeyword;
     private List<Keyword> hotKeywordList;
-    private List<String> historyKeywordList;
+    private List<Keyword> historyKeywordList;
 
 }
