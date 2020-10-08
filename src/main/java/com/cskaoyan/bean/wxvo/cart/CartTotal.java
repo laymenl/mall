@@ -4,8 +4,8 @@ public class CartTotal {
 
     private int goodsCount;
     private int checkedGoodsCount;
-    private int goodsAmount;
-    private int checkedGoodsAmount;
+    private double goodsAmount;
+    private double checkedGoodsAmount;
 
     public int getGoodsCount() {
         return goodsCount;
@@ -23,19 +23,19 @@ public class CartTotal {
         this.checkedGoodsCount = checkedGoodsCount;
     }
 
-    public int getGoodsAmount() {
+    public double getGoodsAmount() {
         return goodsAmount;
     }
 
-    public void setGoodsAmount(int goodsAmount) {
+    public void setGoodsAmount(double goodsAmount) {
         this.goodsAmount = goodsAmount;
     }
 
-    public int getCheckedGoodsAmount() {
+    public double getCheckedGoodsAmount() {
         return checkedGoodsAmount;
     }
 
-    public void setCheckedGoodsAmount(int checkedGoodsAmount) {
+    public void setCheckedGoodsAmount(double checkedGoodsAmount) {
         this.checkedGoodsAmount = checkedGoodsAmount;
     }
 }

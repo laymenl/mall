@@ -356,10 +356,13 @@
   <select id="getCheckedGoodsCount" resultType="java.lang.Integer">
     select sum(number) from cskaoyanmall_cart where user_id = #{userId} and checked = 1
   </select>
-  <select id="getGoodsAmount" resultType="java.lang.Integer">
+  <select id="getGoodsAmount" resultType="java.lang.Double">
     select sum(price) from cskaoyanmall_cart where user_id = #{userId}
   </select>
-  <select id="getCheckedGoodsAmount" resultType="java.lang.Integer">
+  <select id="getCheckedGoodsAmount" resultType="java.lang.Double">
     select sum(price) from cskaoyanmall_cart where user_id = #{userId} and checked = 1
   </select>
+    <select id="selectLastId" resultType="java.lang.Integer">
+      select last_insert_id() from cskaoyanmall_cart limit 1
+    </select>
 </mapper>
