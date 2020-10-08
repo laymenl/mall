@@ -13,6 +13,8 @@ import com.cskaoyan.bean.history.HistoryListBean;
 import com.cskaoyan.bean.history.UserSearchHistory;
 import com.cskaoyan.bean.history.UserSearchHistoryExample;
 import com.cskaoyan.bean.wxvo.CollectListVO;
+import com.cskaoyan.bean.wxvo.UserAddressDetailVO;
+import com.cskaoyan.bean.wxvo.UserAddressVO;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -23,9 +25,9 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -74,7 +76,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public AddressListBean queryUserAddressListBean(Integer userId, String name, Integer page, Integer limit, String sort, String order) {
+    public AddressListBean queryUserAddressListBean(String userId, String name, Integer page, Integer limit, String sort, String order) {
 
         PageHelper.startPage(page,limit);
         UserAddressExample userAddressExample = new UserAddressExample();
@@ -196,11 +198,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public CollectListVO queryWxCollectListBean(Integer type, Integer page, Integer size) {
         PageHelper.startPage(page,size);
-        List<com.cskaoyan.bean.wxvo.CollectListBean> collectListBean = userCollectMapper.queryWxCollectListBean(type);
-        PageInfo pageInfo = new PageInfo(collectListBean);
+        List<com.cskaoyan.bean.wxvo.CollectListBean> collectListBeans = userCollectMapper.queryWxCollectListBean(type);
+        PageInfo pageInfo = new PageInfo(collectListBeans);
         long total = pageInfo.getTotal();
         CollectListVO collectListVO = new CollectListVO();
-        collectListVO.setCollectList(collectListBean);
+        collectListVO.setCollectList(collectListBeans);
         collectListVO.setTotalPages(total);
         return collectListVO;
     }
@@ -219,8 +221,7 @@ public class UserServiceImpl implements UserService {
         UserCollectExample.Criteria criteria = userCollectExample.createCriteria();
         criteria.andValueIdEqualTo(userCollect.getValueId()).andUserIdEqualTo(id);
         List<UserCollect> userCollects = userCollectMapper.selectByExample(userCollectExample);
-        Boolean bool;
-        if(bool = userCollects.get(0).equals(null)){
+        if(userCollects.size()==0){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
             String date = simpleDateFormat.format(new Date());
             Date dateTime = simpleDateFormat.parse(date);
@@ -229,13 +230,65 @@ public class UserServiceImpl implements UserService {
             userCollect.setUpdateTime(dateTime);
             userCollect.setUserId(id);
             userCollectMapper.addCollection(userCollect);
+            return "add";
         }else{
-            if(userCollects.get(0).getDeleted().equals(1)){
-                userCollectMapper.addCollection2(userCollect.getType(), userCollect.getValueId(),id);
-            }else userCollectMapper.deleteCollection(userCollect.getType(), userCollect.getValueId(),id);
+            if(userCollects.get(0).getDeleted().equals(Boolean.TRUE)){
+                userCollectMapper.addCollection2(userCollect.getType(), userCollect.getValueId(), id);
+                return "add";
+            } else {
+                userCollectMapper.deleteCollection(userCollect.getType(), userCollect.getValueId(), id);
+                return "delete";
+            }
         }
 
-        return bool?"add":"delete";
+    }
+
+    @Override
+    public List<UserAddressVO> queryUserAddress() {
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(userExample);
+        Integer id = users.get(0).getId();
+        List<UserAddressVO> userAddresses = userAddressMapper.selectUserAddress(id);
+        return userAddresses;
+    }
+
+    @Override
+    public UserAddressDetailVO queryUserAddressDetail(Integer id) {
+        List<UserAddressDetailVO> userAddresses = userAddressMapper.queryUserAddressDeatil(id);
+        UserAddressDetailVO userAddressDetailVO = userAddresses.get(0);
+        return userAddressDetailVO;
+    }
+
+    @Override
+    public Integer saveUserAddress(UserAddress userAddress) {
+        UserAddressExample userAddressExample = new UserAddressExample();
+        UserAddressExample.Criteria criteria = userAddressExample.createCriteria();
+        if(userAddress.getIsDefault()==null){
+            criteriaAdd(userAddress, criteria);
+            userAddressMapper.updateByExampleSelective(userAddress, userAddressExample);
+        }else {
+            criteriaAdd(userAddress, criteria);
+            criteria.andIsDefaultEqualTo(userAddress.getIsDefault());
+            userAddressMapper.updateByExampleSelective(userAddress, userAddressExample);
+        }
+        return userAddress.getId();
+    }
+
+    @Override
+    public Integer deleteUserAddress(HashMap map) {
+        Object id = map.get("id");
+        int i = userAddressMapper.deleteByPrimaryKey((Integer) id) ;
+        return i;
+    }
+
+    private void criteriaAdd(UserAddress userAddress, UserAddressExample.Criteria criteria) {
+        criteria.andIdEqualTo(userAddress.getId()).andNameEqualTo(userAddress.getName()).
+                andMobileEqualTo(userAddress.getMobile()).andProvinceIdEqualTo(userAddress.getProvinceId()).
+                andCityIdEqualTo(userAddress.getCityId()).andAreaIdEqualTo(userAddress.getAreaId()).
+                andAddressEqualTo(userAddress.getAddress());
     }
 
 }

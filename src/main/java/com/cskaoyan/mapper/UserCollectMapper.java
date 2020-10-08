@@ -32,7 +32,7 @@ public interface UserCollectMapper {
 
     List<CollectListBean> queryWxCollectListBean(Integer type);
 
-    void deleteCollection(@Param("type") Byte type, @Param("valueid") Integer valueid, Integer id);
+    void deleteCollection(Byte type, Integer valueId,Integer id);
 
     void addCollection(UserCollect userCollect);
 

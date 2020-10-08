@@ -102,7 +102,7 @@
     </if>
   </delete>
   <update id="deleteCollection">
-    update cskaoyanmall_collect set deleted = 1 where id = id and value_id = valueid
+    update cskaoyanmall_collect set deleted = 1 where id = #{id} and value_id = #{valueId}
   </update>
   <insert id="insert" parameterType="com.cskaoyan.bean.collect.UserCollect">
     insert into cskaoyanmall_collect (id, user_id, value_id, 
@@ -167,7 +167,7 @@
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT} )
   </insert>
   <update id="addCollection2">
-    update cskaoyanmall_collect set deleted = 0 where id = id and value_id = valueid
+    update cskaoyanmall_collect set deleted = 0 where id = #{id} and value_id = #{valueid}
   </update>
   <select id="countByExample" parameterType="com.cskaoyan.bean.collect.UserCollectExample" resultType="java.lang.Long">
     select count(*) from cskaoyanmall_collect
@@ -176,9 +176,9 @@
     </if>
   </select>
   <resultMap id="CollectMapLeft" type="com.cskaoyan.bean.wxvo.CollectListBean">
-    <result column="brief" property="brief"/>
-    <result column="value_id" property="valueId"/>
     <result column="id" property="id"/>
+    <result column="value_id" property="valueId"/>
+    <result column="brief" property="brief"/>
     <result column="name" property="name"/>
     <result column="pic_url" property="picUrl"/>
     <result column="type" property="type"/>
