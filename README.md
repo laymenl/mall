@@ -73,8 +73,11 @@ storage.path 要和 spring.resources.static-locations中的路径一致。
 ## 通过token获取用户信息的方法
 
 ```java
-       Subject subject = SecurityUtils.getSubject();
-       String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+//得到username
+Subject subject = SecurityUtils.getSubject();       
+String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+//判断是否已经登陆
+subject.isAuthenticated()
 ```
 
 
