@@ -2,6 +2,7 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.history.UserSearchHistory;
 import com.cskaoyan.bean.history.UserSearchHistoryExample;
+import com.cskaoyan.bean.shop.keyword.Keyword;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,5 +30,5 @@ public interface UserSearchHistoryMapper {
 
     int updateByPrimaryKey(UserSearchHistory record);
 
-    List<String> selectSearchHistoryByUsername(String username);
+    List<Keyword> selectSearchHistoryByUsername(String username);
 }

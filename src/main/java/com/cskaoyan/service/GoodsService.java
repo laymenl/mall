@@ -32,5 +32,5 @@ public interface GoodsService {
 
     GoodsDetailVO wxDetail(int id);
 
-    GoodsListVO list(Integer categoryId, Integer page, Integer size);
+    GoodsListVO list(Integer categoryId, Integer page, Integer size, String sort, String order, String keyword);
 }
