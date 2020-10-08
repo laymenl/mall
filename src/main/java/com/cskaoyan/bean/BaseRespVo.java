@@ -49,4 +49,10 @@ public class BaseRespVo<T> {
         baseRespVo.setMsg(msg);
         return baseRespVo;
     }
+    public static BaseRespVo fail501(String msg) {
+        BaseRespVo<Object> baseRespVo = new BaseRespVo<>();
+        baseRespVo.setErrno(501);
+        baseRespVo.setMsg(msg);
+        return baseRespVo;
+    }
 }
