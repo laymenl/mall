@@ -30,4 +30,8 @@ public interface KeywordMapper4Shop {
     int updateByPrimaryKey(Keyword record);
 
     int selectLastId();
+
+    List<String> selectSimilarKeywords(String keyword);
+
+    void deleteByUsername(String username);
 }

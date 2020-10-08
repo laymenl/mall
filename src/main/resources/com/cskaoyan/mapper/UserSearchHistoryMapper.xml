@@ -164,6 +164,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectSearchHistoryByUsername" resultType="java.lang.String">
+    select history.keyword from cskaoyanmall_search_history history
+    left join cskaoyanmall_user user
+    on history.user_id = user.id
+    where user.username = #{username} and history.deleted = false
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_search_history
     <set>
