@@ -113,9 +113,19 @@ public class WxCartServiceImpl implements WxCartService{
         CheckoutVO checkoutVO = new CheckoutVO();
         UserAddress checkedAddress = userAddressMapper.selectByPrimaryKey(addressId);
         CartExample cartExample = new CartExample();
-        cartExample.createCriteria().andUserIdEqualTo(userId).andCheckedEqualTo(true);
-        List<Cart> carts = cartMapper.selectByExample(cartExample);
-        Integer goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
+        List<Cart> carts;
+        Integer goodsTotalPrice;
+        if (cartId == 0) {//无cartid传入
+            cartExample.createCriteria().andUserIdEqualTo(userId).andCheckedEqualTo(true);
+            carts = cartMapper.selectByExample(cartExample);
+            goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
+        }else {//有cartId传入
+            cartExample.createCriteria().andIdEqualTo(cartId);
+            carts = cartMapper.selectByExample(cartExample);
+            goodsTotalPrice = carts.get(0).getPrice().intValue();
+        }
+//        List<Cart> carts = cartMapper.selectByExample(cartExample);
+//        Integer goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
         Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
         Integer couponPrice = 0;
         if (coupon != null){

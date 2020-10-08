@@ -25,7 +25,7 @@ public class WxCartController {
     public BaseRespVo index(){
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-        //System.out.println(username);
+        System.out.println(username);
         CartListBean cartListBean = wxCartService.index(username);
         return BaseRespVo.ok(cartListBean);
     }
@@ -64,8 +64,13 @@ public class WxCartController {
     @RequestMapping("goodscount")
     public BaseRespVo goodscount(){
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-        Integer count = wxCartService.goodscount(username);
-        return BaseRespVo.ok(count);
+        if (subject.isAuthenticated()) {
+            String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+            Integer count = wxCartService.goodscount(username);
+            return BaseRespVo.ok(count);
+        }else{
+            return BaseRespVo.ok(0);
+        }
     }
+    
 }
