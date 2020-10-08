@@ -48,7 +48,7 @@ public class WxFootPrintServiceImpl implements WxFootPrintService {
     @Override
     public ListBean list(Integer page, Integer size) {
 
-        PageHelper.startPage(page, size);
+
         List<WxFootprintVo> wxFootprintVoList = new ArrayList<>();
 
         Subject subject = SecurityUtils.getSubject();
@@ -59,6 +59,7 @@ public class WxFootPrintServiceImpl implements WxFootPrintService {
 
         UserFootPrintExample userFootPrintExample = new UserFootPrintExample();
         userFootPrintExample.createCriteria().andUserIdEqualTo(user.getId());
+        PageHelper.startPage(page, size);
         List<UserFootPrint> userFootPrints = userFootPrintMapper.selectByExample(userFootPrintExample);
 
         for (UserFootPrint userFootPrint : userFootPrints) {
