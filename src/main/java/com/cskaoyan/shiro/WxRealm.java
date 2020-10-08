@@ -48,4 +48,5 @@ public class WxRealm extends AuthorizingRealm {
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, this.getName());
         return authenticationInfo;
     }
+
 }

@@ -101,6 +101,7 @@
     from cskaoyanmall_user
     where id = #{id,jdbcType=INTEGER}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from cskaoyanmall_user
     where id = #{id,jdbcType=INTEGER}

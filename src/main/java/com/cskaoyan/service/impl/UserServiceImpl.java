@@ -12,13 +12,20 @@ import com.cskaoyan.bean.footprint.UserFootPrintExample;
 import com.cskaoyan.bean.history.HistoryListBean;
 import com.cskaoyan.bean.history.UserSearchHistory;
 import com.cskaoyan.bean.history.UserSearchHistoryExample;
+import com.cskaoyan.bean.wxvo.CollectListVO;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.service.UserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import lombok.SneakyThrows;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -185,4 +192,50 @@ public class UserServiceImpl implements UserService {
         feedBackListBean.setTotal(total);
         return feedBackListBean;
     }
+
+    @Override
+    public CollectListVO queryWxCollectListBean(Integer type, Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        List<com.cskaoyan.bean.wxvo.CollectListBean> collectListBean = userCollectMapper.queryWxCollectListBean(type);
+        PageInfo pageInfo = new PageInfo(collectListBean);
+        long total = pageInfo.getTotal();
+        CollectListVO collectListVO = new CollectListVO();
+        collectListVO.setCollectList(collectListBean);
+        collectListVO.setTotalPages(total);
+        return collectListVO;
+    }
+
+    @SneakyThrows
+    @Override
+    public String addOrDeleteCollection(UserCollect userCollect) {
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UserExample userExample = new UserExample();
+        UserExample.Criteria criteria1 = userExample.createCriteria();
+        criteria1.andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(userExample);
+        Integer id = users.get(0).getId();
+        UserCollectExample userCollectExample = new UserCollectExample();
+        UserCollectExample.Criteria criteria = userCollectExample.createCriteria();
+        criteria.andValueIdEqualTo(userCollect.getValueId()).andUserIdEqualTo(id);
+        List<UserCollect> userCollects = userCollectMapper.selectByExample(userCollectExample);
+        Boolean bool;
+        if(bool = userCollects.get(0).equals(null)){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+            String date = simpleDateFormat.format(new Date());
+            Date dateTime = simpleDateFormat.parse(date);
+            userCollect.setAddTime(dateTime);
+            userCollect.setDeleted(false);
+            userCollect.setUpdateTime(dateTime);
+            userCollect.setUserId(id);
+            userCollectMapper.addCollection(userCollect);
+        }else{
+            if(userCollects.get(0).getDeleted().equals(1)){
+                userCollectMapper.addCollection2(userCollect.getType(), userCollect.getValueId(),id);
+            }else userCollectMapper.deleteCollection(userCollect.getType(), userCollect.getValueId(),id);
+        }
+
+        return bool?"add":"delete";
+    }
+
 }

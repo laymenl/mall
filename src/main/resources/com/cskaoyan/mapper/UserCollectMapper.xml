@@ -101,6 +101,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <update id="deleteCollection">
+    update cskaoyanmall_collect set deleted = 1 where id = id and value_id = valueid
+  </update>
   <insert id="insert" parameterType="com.cskaoyan.bean.collect.UserCollect">
     insert into cskaoyanmall_collect (id, user_id, value_id, 
       type, add_time, update_time, 
@@ -158,13 +161,38 @@
       </if>
     </trim>
   </insert>
+  <insert id="addCollection">
+    insert into cskaoyanmall_collect (user_id,value_id,`type`,add_time,update_time,deleted)
+    values (#{userId,jdbcType=INTEGER}, #{valueId,jdbcType=INTEGER}, #{type,jdbcType=BIT},
+      #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT} )
+  </insert>
+  <update id="addCollection2">
+    update cskaoyanmall_collect set deleted = 0 where id = id and value_id = valueid
+  </update>
   <select id="countByExample" parameterType="com.cskaoyan.bean.collect.UserCollectExample" resultType="java.lang.Long">
     select count(*) from cskaoyanmall_collect
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <resultMap id="CollectMapLeft" type="com.cskaoyan.bean.wxvo.CollectListBean">
+    <result column="brief" property="brief"/>
+    <result column="value_id" property="valueId"/>
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="pic_url" property="picUrl"/>
+    <result column="type" property="type"/>
+    <result column="retail_price" property="retailPrice"/>
+  </resultMap>
+    <select id="queryWxCollectListBean" resultMap="CollectMapLeft">
+      select
+      c.value_id,c.id,c.type,
+      g.brief,g.name,g.pic_url,g.retail_price
+      from cskaoyanmall_collect c
+      left join cskaoyanmall_goods g on c.value_id = g.id
+      where c.type = #{type}
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_collect
     <set>
       <if test="record.id != null">

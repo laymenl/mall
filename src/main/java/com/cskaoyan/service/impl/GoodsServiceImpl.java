@@ -6,22 +6,32 @@ import com.cskaoyan.bean.GoodsPart.VO.BrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CatAndBrandVO;
 import com.cskaoyan.bean.GoodsPart.VO.CategoryVO;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.User;
+import com.cskaoyan.bean.UserExample;
 import com.cskaoyan.bean.collect.UserCollectExample;
+import com.cskaoyan.bean.history.UserSearchHistory;
 import com.cskaoyan.bean.shop.brand.Brand;
 import com.cskaoyan.bean.shop.brand.BrandExample;
 import com.cskaoyan.bean.shop.category.Category;
 import com.cskaoyan.bean.shop.category.CategoryExample;
 import com.cskaoyan.bean.shop.issue.Issue;
 import com.cskaoyan.bean.shop.issue.IssueExample;
+import com.cskaoyan.bean.shop.keyword.Keyword;
 import com.cskaoyan.bean.wxvo.*;
 import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.CategoryMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.IssueMapper4Shop;
+<<<<<<< HEAD
 import com.cskaoyan.promoteModule.grouponManage.bean.listRecord.Groupon;
+=======
+import com.cskaoyan.mapper.shopMapper.KeywordMapper4Shop;
+>>>>>>> bc43b157d91cfadac0f89815fa966d9b41812a9a
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,6 +54,9 @@ public class GoodsServiceImpl implements GoodsService {
     AttributeMapper attributeMapper;
 
     @Autowired
+    UserMapper userMapper;
+
+    @Autowired
     CategoryMapper categoryMapper;
 
     @Autowired
@@ -60,6 +73,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     CategoryMapper4Shop categoryMapper4Shop;
+
+    @Autowired
+    UserSearchHistoryMapper searchHistoryMapper;
 
     @Override
     public ListBean queryGoodsListBean(Integer page, Integer limit, String sort, String order, String goodsSn, String name) {
@@ -246,10 +262,35 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public GoodsListVO list(Integer categoryId, Integer page, Integer size) {
+    public GoodsListVO list(Integer categoryId, Integer page, Integer size, String sort, String order, String keyword) {
         GoodsListVO goodsListVO = new GoodsListVO();
         GoodsExample goodsExample = new GoodsExample();
-        goodsExample.createCriteria().andCategoryIdEqualTo(categoryId).andDeletedEqualTo(false);
+        if(order != null && sort != null){
+            goodsExample.setOrderByClause(sort + " " + order);
+        }
+//        goodsExample.createCriteria().andCategoryIdEqualTo(categoryId).andDeletedEqualTo(false);
+        GoodsExample.Criteria criteria = goodsExample.createCriteria();
+        criteria.andDeletedEqualTo(false);
+        if(categoryId != 0 && categoryId != null){
+            criteria.andCategoryIdEqualTo(categoryId);
+        }
+        if(keyword != null){
+            criteria.andNameLike("%" + keyword + "%");
+            UserSearchHistory userSearchHistory = new UserSearchHistory();
+            userSearchHistory.setKeyword(keyword);
+            Subject subject = SecurityUtils.getSubject();
+            Integer userId = null;
+            if(subject.isAuthenticated()){
+                String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+                UserExample userExample = new UserExample();
+                userExample.createCriteria().andUsernameEqualTo(username);
+                List<User> users = userMapper.selectByExample(userExample);
+                userId = users.size() > 0 ? users.get(0).getId() : null;
+                userSearchHistory.setUserId(userId);
+                searchHistoryMapper.insert(userSearchHistory);
+            }
+        }
+        PageHelper.startPage(page, size);
         List<Goods> goodsList = goodsMapper.selectByExample(goodsExample);
         CategoryExample categoryExample = new CategoryExample();
         categoryExample.createCriteria().andDeletedEqualTo(false).andLevelEqualTo("L2");
