@@ -195,7 +195,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_coupon_user
     <set>
       <if test="record.id != null">
@@ -303,4 +303,10 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="getAvailableCouponLength" resultType="java.lang.Integer">
+    select count(*) from cskaoyanmall_coupon_user as cu
+    left join cskaoyanmall_coupon as c on cu.coupon_id = c.id
+    where cu.user_id = #{userId}
+  </select>
+
 </mapper>
