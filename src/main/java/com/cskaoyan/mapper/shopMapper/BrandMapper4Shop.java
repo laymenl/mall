@@ -2,6 +2,7 @@ package com.cskaoyan.mapper.shopMapper;
 
 import com.cskaoyan.bean.shop.brand.Brand;
 import com.cskaoyan.bean.shop.brand.BrandExample;
+import com.cskaoyan.bean.wxvo.wxBrandList;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,4 +31,6 @@ public interface BrandMapper4Shop {
     int updateByPrimaryKey(Brand record);
 
     int selectLastId();
+
+    List<wxBrandList> selectBrandList();
 }

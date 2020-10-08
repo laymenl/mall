@@ -275,4 +275,16 @@
   <select id="selectLastId" resultType="java.lang.Integer">
     select LAST_INSERT_ID() from cskaoyanmall_brand limit 1
   </select>
+
+  <resultMap id="wxBrandList" type="com.cskaoyan.bean.wxvo.wxBrandList">
+    <result column="id" property="id"/>
+    <result column="name" property="name"/>
+    <result column="desc" property="desc"/>
+    <result column="pic_url" property="picUrl"/>
+    <result column="floor_price" property="floorPrice"/>
+  </resultMap>
+  <select id="selectBrandList" resultMap="wxBrandList">
+    select id,`name`, `desc`,pic_url,floor_price
+    from cskaoyanmall_brand
+  </select>
 </mapper>
