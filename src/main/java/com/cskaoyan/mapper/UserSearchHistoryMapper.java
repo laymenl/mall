@@ -28,4 +28,6 @@ public interface UserSearchHistoryMapper {
     int updateByPrimaryKeySelective(UserSearchHistory record);
 
     int updateByPrimaryKey(UserSearchHistory record);
+
+    List<String> selectSearchHistoryByUsername(String username);
 }

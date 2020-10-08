@@ -103,6 +103,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
+  <delete id="deleteByUsername">
+        update cskaoyanmall_search_history set deleted  = true
+        where user_id = (select cskaoyanmall_user.id from cskaoyanmall_user
+                where cskaoyanmall_user.username = #{username})
+  </delete>
   <insert id="insert" parameterType="com.cskaoyan.bean.shop.keyword.Keyword">
     insert into cskaoyanmall_keyword (id, keyword, url, 
       is_hot, is_default, sort_order, 
@@ -275,4 +280,7 @@
   <select id="selectLastId" resultType="java.lang.Integer">
     select last_insert_id() from cskaoyanmall_keyword limit 1;
   </select>
+    <select id="selectSimilarKeywords" resultType="java.lang.String">
+      select keyword from cskaoyanmall_keyword where keyword like concat('%',#{keyword},'%') and deleted = false
+    </select>
 </mapper>
