@@ -204,6 +204,42 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <resultMap id="userAddressDetailLeft" type="com.cskaoyan.bean.wxvo.UserAddressDetailVO">
+    <result column="id" property="id"/>
+    <result column="area_id" property="areaId"/>
+    <result column="city_id" property="cityId"/>
+    <result column="province_id" property="provinceId"/>
+    <result column="name" property="name"/>
+    <result column="provinceName" property="provinceName"/>
+    <result column="cityName" property="cityName"/>
+    <result column="areaName" property="areaName"/>
+    <result column="mobile" property="mobile"/>
+    <result column="address" property="address"/>
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
+  </resultMap>
+  <select id="queryUserAddressDeatil" resultMap="userAddressDetailLeft">
+    select
+      a.is_default,a.area_id,a.city_id,a.address,a.`name`,a.mobile,a.id,a.province_id,
+      y.`name` as provinceName,r.`name` as cityName,x.`name` as areaName
+      from cskaoyanmall_address as a
+      inner join cskaoyanmall_region r on a.area_id = r.id
+      inner join cskaoyanmall_region x on x.id = r.pid
+	  inner join cskaoyanmall_region y on y.id= x.pid
+      where a.id = #{id}
+  </select>
+  <resultMap id="userAddressLeft" type="com.cskaoyan.bean.wxvo.UserAddressVO">
+    <result column="address" property="detailedAddress"/>
+    <result column="name" property="name"/>
+    <result column="mobile" property="mobile"/>
+    <result column="id" property="id"/>
+    <result column="is_default" property="isDefault"/>
+  </resultMap>
+  <select id="selectUserAddress" resultMap="userAddressLeft">
+    select
+      a.address ,a.`name`,a.mobile,a.is_default,a.id
+      from cskaoyanmall_address a
+      where a.user_id = #{id}
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_address
     <set>

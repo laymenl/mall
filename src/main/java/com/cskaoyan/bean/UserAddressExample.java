@@ -485,7 +485,7 @@ public class UserAddressExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddressEqualTo(Integer value) {
+        public Criteria andAddressEqualTo(String value) {
             addCriterion("address =", value, "address");
             return (Criteria) this;
         }

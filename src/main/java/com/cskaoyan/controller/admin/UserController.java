@@ -25,8 +25,8 @@ public class UserController {
         return BaseRespVo.ok(listBean);
     }
     @RequestMapping("/address/list")
-    public BaseRespVo address(Integer userId, String name,Integer page,Integer limit,String sort,String order){
-        AddressListBean addressListBean = userService.queryUserAddressListBean(userId, name, page, limit, sort, order);
+    public BaseRespVo address(String userId, String name, Integer page, Integer limit, String sort, String order){
+        AddressListBean addressListBean = userService.queryUserAddressListBean(userId,  name, page, limit, sort, order);
         return BaseRespVo.ok(addressListBean);
     }
     @RequestMapping("/collect/list")

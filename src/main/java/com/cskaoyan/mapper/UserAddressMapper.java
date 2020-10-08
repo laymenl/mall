@@ -2,6 +2,8 @@ package com.cskaoyan.mapper;
 
 import com.cskaoyan.bean.UserAddress;
 import com.cskaoyan.bean.UserAddressExample;
+import com.cskaoyan.bean.wxvo.UserAddressDetailVO;
+import com.cskaoyan.bean.wxvo.UserAddressVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -28,4 +30,8 @@ public interface UserAddressMapper {
     int updateByPrimaryKeySelective(UserAddress record);
 
     int updateByPrimaryKey(UserAddress record);
+
+    List<UserAddressDetailVO> queryUserAddressDeatil(Integer id);
+
+    List<UserAddressVO> selectUserAddress(Integer id);
 }
