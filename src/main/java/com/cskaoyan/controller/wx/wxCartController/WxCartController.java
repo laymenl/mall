@@ -4,6 +4,7 @@ import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.wxvo.cart.Cart;
 import com.cskaoyan.bean.wxvo.cart.CartBO;
 import com.cskaoyan.bean.wxvo.cart.CartListBean;
+import com.cskaoyan.bean.wxvo.cart.CheckoutVO;
 import com.cskaoyan.service.wx.WxCartService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -52,5 +53,19 @@ public class WxCartController {
         String username = (String) subject.getPrincipals().getPrimaryPrincipal();
         CartListBean cartListBean = wxCartService.delete(cartBO,username);
         return BaseRespVo.ok(cartListBean);
+    }
+    @RequestMapping("checkout")
+    public BaseRespVo checkout(Integer cartId,Integer addressId,Integer couponId,Integer grouponRulesId){
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+        CheckoutVO checkoutVO = wxCartService.checkout(username,cartId,addressId,couponId,grouponRulesId);
+        return BaseRespVo.ok(checkoutVO);
+    }
+    @RequestMapping("goodscount")
+    public BaseRespVo goodscount(){
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+        Integer count = wxCartService.goodscount(username);
+        return BaseRespVo.ok(count);
     }
 }
