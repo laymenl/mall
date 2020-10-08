@@ -1,10 +1,7 @@
 package com.cskaoyan.controller.wx.wxCartController;
 
 import com.cskaoyan.bean.BaseRespVo;
-import com.cskaoyan.bean.wxvo.cart.Cart;
-import com.cskaoyan.bean.wxvo.cart.CartBO;
-import com.cskaoyan.bean.wxvo.cart.CartListBean;
-import com.cskaoyan.bean.wxvo.cart.CheckoutVO;
+import com.cskaoyan.bean.wxvo.cart.*;
 import com.cskaoyan.service.wx.WxCartService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -24,10 +21,14 @@ public class WxCartController {
     @RequestMapping("index")
     public BaseRespVo index(){
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-        //System.out.println(username);
-        CartListBean cartListBean = wxCartService.index(username);
-        return BaseRespVo.ok(cartListBean);
+        if (subject.isAuthenticated()) {
+            String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+            System.out.println(username);
+            CartListBean cartListBean = wxCartService.index(username);
+            return BaseRespVo.ok(cartListBean);
+        }else {
+            return BaseRespVo.fail501("请登录");
+        }
     }
     /*productId: 125
       goodsId: 1097011
@@ -64,8 +65,24 @@ public class WxCartController {
     @RequestMapping("goodscount")
     public BaseRespVo goodscount(){
         Subject subject = SecurityUtils.getSubject();
-        String username = (String) subject.getPrincipals().getPrimaryPrincipal();
-        Integer count = wxCartService.goodscount(username);
-        return BaseRespVo.ok(count);
+        if (subject.isAuthenticated()) {
+            String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+            Integer count = wxCartService.goodscount(username);
+            return BaseRespVo.ok(count);
+        }else{
+            return BaseRespVo.ok(0);
+        }
     }
+    @RequestMapping("add")
+    public BaseRespVo add(@RequestBody AddBO addBO){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+            int add = wxCartService.add(addBO, username);
+            return BaseRespVo.ok(add);
+        }else {
+            return BaseRespVo.fail501("请登录");
+        }
+    }
+    
 }
