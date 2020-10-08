@@ -119,25 +119,25 @@ public class WxCartServiceImpl implements WxCartService{
         UserAddress checkedAddress = userAddressMapper.selectByPrimaryKey(addressId);
         CartExample cartExample = new CartExample();
         List<Cart> carts;
-        Integer goodsTotalPrice;
+        Double goodsTotalPrice;
         if (cartId == 0) {//无cartid传入
             cartExample.createCriteria().andUserIdEqualTo(userId).andCheckedEqualTo(true);
             carts = cartMapper.selectByExample(cartExample);
             goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
-        }else {//有cartId传入 //TODO fastadd 接口实现需要的另外实现一套checkout逻辑
+        }else {//有cartId传入
             cartExample.createCriteria().andIdEqualTo(cartId);
             carts = cartMapper.selectByExample(cartExample);
-            goodsTotalPrice = carts.get(0).getPrice().intValue();
+            goodsTotalPrice = carts.get(0).getPrice().doubleValue();
         }
 //      List<Cart> carts = cartMapper.selectByExample(cartExample);
 //      Integer goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
         Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
-        Integer couponPrice = 0;
+        Double couponPrice = Double.valueOf(0);
         if (coupon != null){
-            couponPrice = coupon.getDiscount().intValue();
+            couponPrice = coupon.getDiscount().doubleValue();
         }
-        Integer orderTotalPrice = goodsTotalPrice - couponPrice;
-        Integer acturalPrice = orderTotalPrice;
+        Double orderTotalPrice = goodsTotalPrice - couponPrice;
+        Double acturalPrice = orderTotalPrice;
         Integer length = couponUserMapper.getAvailableCouponLength(userId);
 
         checkoutVO.setGrouponPrice(0);
@@ -172,8 +172,8 @@ public class WxCartServiceImpl implements WxCartService{
         cartExample.createCriteria().andProductIdEqualTo(addBO.getProductId()).andGoodsIdEqualTo(addBO.getGoodsId()).andUserIdEqualTo(userId);
         List<Cart> cartList = cartMapper.selectByExample(cartExample);
         //如果能找到对应数据
-        int single = product.getPrice().intValue();
-        int total = single * addBO.getNumber();
+        double single = product.getPrice().doubleValue();
+        double total = single * addBO.getNumber();
         Cart cart = new Cart();
         if (cartList.size() != 0){
             cart = cartList.get(0);
@@ -197,6 +197,47 @@ public class WxCartServiceImpl implements WxCartService{
             cartMapper.insertSelective(cart);
         }
         return cartMapper.getGoodsCount(userId);
+    }
+
+    @Override
+    public int fastadd(AddBO addBO, String username) {
+        //获取相应的对象
+        Integer userId = getUserId(username);
+        Product product = productMapper.selectByPrimaryKey(addBO.getProductId());
+        Goods goods = goodsMapper.selectByPrimaryKey(addBO.getGoodsId());
+        //根据条件查找购物车数据
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andProductIdEqualTo(addBO.getProductId()).andGoodsIdEqualTo(addBO.getGoodsId()).andUserIdEqualTo(userId);
+        List<Cart> cartList = cartMapper.selectByExample(cartExample);
+        //如果能找到对应数据
+        double single = product.getPrice().doubleValue();
+        double total = single * addBO.getNumber();
+        Cart cart = new Cart();
+        int cartId;
+        if (cartList.size() != 0){
+            cart = cartList.get(0);
+            cart.setPrice(BigDecimal.valueOf(total));
+            cart.setNumber((short)addBO.getNumber());
+            cart.setUpdateTime(new Date());
+            cartMapper.updateByPrimaryKeySelective(cart);
+            cartId = cart.getId();
+        }else {
+            cart.setUserId(userId);
+            cart.setGoodsId(addBO.getGoodsId());
+            cart.setGoodsSn(goods.getGoodsSn());
+            cart.setGoodsName(goods.getName());
+            cart.setProductId(addBO.getProductId());
+            cart.setPrice(BigDecimal.valueOf(total));
+            cart.setNumber((short) addBO.getNumber());
+            cart.setSpecifications("[\""+ product.getSpecifications()[0] + "\"]");
+            cart.setChecked(true);
+            cart.setPicUrl(goods.getPicUrl());
+            cart.setAddTime(new Date());
+            cart.setUpdateTime(new Date());
+            cartMapper.insertSelective(cart);
+            cartId = cartMapper.selectLastId();
+        }
+        return cartId;
     }
 
     private Integer getUserId(String username) {

@@ -62,11 +62,10 @@ public class WxCouponServiceImpl implements WxCouponService {
 
     @Override
     public ListBean queryCouponListBean(Integer page, Integer size) {
-        PageHelper.startPage(page, size);
 
         CouponExample couponExample = new CouponExample();
         couponExample.createCriteria();
-
+        PageHelper.startPage(page, size);
         List<Coupon> coupons = couponMapper.selectByExample(couponExample);
         for (Coupon couponUser : coupons) {
             System.out.println("查询到的coupon：" + coupons);
@@ -87,8 +86,6 @@ public class WxCouponServiceImpl implements WxCouponService {
     public ListBean queryMyCouponListBean(Short status, Integer page, Integer size) {
         List<Coupon> couponList = new ArrayList<>();
 
-        PageHelper.startPage(page, size);
-
         Subject subject = SecurityUtils.getSubject();
         String username = (String) subject.getPrincipal();
 
@@ -96,9 +93,9 @@ public class WxCouponServiceImpl implements WxCouponService {
         userExample.createCriteria().andUsernameEqualTo(username);
         User user = userMapper.selectByExample(userExample).get(0);
 
-
         CouponUserExample couponUserExample = new CouponUserExample();
         couponUserExample.createCriteria().andUserIdEqualTo(user.getId());
+        PageHelper.startPage(page, size);
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
 
         for (CouponUser couponUser : couponUsers) {
@@ -109,7 +106,6 @@ public class WxCouponServiceImpl implements WxCouponService {
             }
 
         }
-
 
         PageInfo pageInfo = new PageInfo(couponList);
         long total = pageInfo.getTotal();

@@ -22,6 +22,7 @@ import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.CategoryMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.IssueMapper4Shop;
+import com.cskaoyan.promoteModule.grouponManage.bean.listRecord.Groupon;
 import com.cskaoyan.mapper.shopMapper.KeywordMapper4Shop;
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
@@ -251,7 +252,7 @@ public class GoodsServiceImpl implements GoodsService {
         ProductExample productExample = new ProductExample();
         productExample.createCriteria().andGoodsIdEqualTo(id);
         List<Product> products = productMapper.selectByExample(productExample);
-        GoodsDetailVO goodsDetailVO = new GoodsDetailVO(specificationListEntities, null, issues, userHasCollect,
+        GoodsDetailVO goodsDetailVO = new GoodsDetailVO(specificationListEntities, new ArrayList<>(), issues, userHasCollect,
                 commentEntity, attributes, brand, products, info);
 
         return goodsDetailVO;
