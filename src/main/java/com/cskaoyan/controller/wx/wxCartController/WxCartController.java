@@ -84,5 +84,15 @@ public class WxCartController {
             return BaseRespVo.fail501("请登录");
         }
     }
-    
+    @RequestMapping("fastadd")
+    public BaseRespVo fastadd(@RequestBody AddBO addBO){
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            String username = (String) subject.getPrincipals().getPrimaryPrincipal();
+            int add = wxCartService.fastadd(addBO, username);
+            return BaseRespVo.ok(add);
+        }else {
+            return BaseRespVo.fail501("请登录");
+        }
+    }
 }

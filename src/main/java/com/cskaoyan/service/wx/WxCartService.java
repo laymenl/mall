@@ -16,4 +16,6 @@ public interface WxCartService {
     Integer goodscount(String username);
 
     int add(AddBO addBO, String username);
+
+    int fastadd(AddBO addBO, String username);
 }
