@@ -37,15 +37,12 @@ public class WxRealm extends AuthorizingRealm {
         String username = token.getUsername();
         String password;
         //未实现加密前这样处理三个已存在账号
-        if(username.equals("test1") || username.equals("test2") || username.equals("test3")){
-            password = username;
-        }else {
             UserExample userExample = new UserExample();
             userExample.createCriteria().andUsernameEqualTo(username);
             List<User> users = userMapper.selectByExample(userExample);
             password = users.size() > 0 ? users.get(0).getPassword() : null;
-        }
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, this.getName());
         return authenticationInfo;
     }
+
 }
