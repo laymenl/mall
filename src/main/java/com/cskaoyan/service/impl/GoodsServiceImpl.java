@@ -22,11 +22,8 @@ import com.cskaoyan.mapper.*;
 import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.CategoryMapper4Shop;
 import com.cskaoyan.mapper.shopMapper.IssueMapper4Shop;
-<<<<<<< HEAD
 import com.cskaoyan.promoteModule.grouponManage.bean.listRecord.Groupon;
-=======
 import com.cskaoyan.mapper.shopMapper.KeywordMapper4Shop;
->>>>>>> bc43b157d91cfadac0f89815fa966d9b41812a9a
 import com.cskaoyan.service.GoodsService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
