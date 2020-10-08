@@ -2,15 +2,18 @@ package com.cskaoyan.service.wx;
 
 
 import com.cskaoyan.bean.User;
+import com.cskaoyan.bean.UserAddress;
 import com.cskaoyan.bean.UserExample;
 import com.cskaoyan.bean.wxvo.cart.*;
 import com.cskaoyan.mapper.CartMapper;
+import com.cskaoyan.mapper.UserAddressMapper;
 import com.cskaoyan.mapper.UserMapper;
-import org.apache.shiro.SecurityUtils;
+import com.cskaoyan.mapper.promoteModule.CouponMapper;
+import com.cskaoyan.mapper.promoteModule.CouponUserMapper;
+import com.cskaoyan.promoteModule.couponManage.bean.Coupon;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.Subject;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -21,6 +24,12 @@ public class WxCartServiceImpl implements WxCartService{
     CartMapper cartMapper;
     @Autowired
     UserMapper userMapper;
+    @Autowired
+    UserAddressMapper userAddressMapper;
+    @Autowired
+    CouponMapper couponMapper;
+    @Autowired
+    CouponUserMapper couponUserMapper;
 
     @Override
     public CartListBean index(String username) {
@@ -96,6 +105,45 @@ public class WxCartServiceImpl implements WxCartService{
             cartMapper.deleteByExample(cartExample);
         }
         return index(username);
+    }
+
+    @Override
+    public CheckoutVO checkout(String username, Integer cartId, Integer addressId, Integer couponId, Integer grouponRulesId) {
+        Integer userId = getUserId(username);
+        CheckoutVO checkoutVO = new CheckoutVO();
+        UserAddress checkedAddress = userAddressMapper.selectByPrimaryKey(addressId);
+        CartExample cartExample = new CartExample();
+        cartExample.createCriteria().andUserIdEqualTo(userId).andCheckedEqualTo(true);
+        List<Cart> carts = cartMapper.selectByExample(cartExample);
+        Integer goodsTotalPrice = cartMapper.getCheckedGoodsAmount(userId);
+        Coupon coupon = couponMapper.selectByPrimaryKey(couponId);
+        Integer couponPrice = 0;
+        if (coupon != null){
+            couponPrice = coupon.getDiscount().intValue();
+        }
+        Integer orderTotalPrice = goodsTotalPrice - couponPrice;
+        Integer acturalPrice = orderTotalPrice;
+        Integer length = couponUserMapper.getAvailableCouponLength(userId);
+
+        checkoutVO.setGrouponPrice(0);
+        checkoutVO.setGrouponRulesId(grouponRulesId);
+        checkoutVO.setCheckedAddress(checkedAddress);
+        checkoutVO.setActualPrice(acturalPrice);
+        checkoutVO.setOrderTotalPrice(orderTotalPrice);
+        checkoutVO.setCouponPrice(couponPrice);
+        checkoutVO.setAvailableCouponLength(length);
+        checkoutVO.setCouponId(couponId);
+        checkoutVO.setFreightPrice(0);//运费信息只有order表有，但是在生成订单前无法查询到订单信息，可能是bug
+        checkoutVO.setCheckedGoodsList(carts);
+        checkoutVO.setGoodsTotalPrice(goodsTotalPrice);
+        checkoutVO.setAddressId(addressId);
+        return checkoutVO;
+    }
+
+    @Override
+    public Integer goodscount(String username) {
+        Integer userId = getUserId(username);
+        return cartMapper.getGoodsCount(userId);
     }
 
     private Integer getUserId(String username) {
