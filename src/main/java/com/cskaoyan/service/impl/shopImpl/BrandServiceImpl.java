@@ -4,6 +4,8 @@ import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.shop.brand.Brand;
 import com.cskaoyan.bean.shop.brand.BrandExample;
 import com.cskaoyan.bean.shop.brand.BrandVO;
+import com.cskaoyan.bean.wxvo.wxBrandList;
+import com.cskaoyan.bean.wxvo.wxBrandListVO;
 import com.cskaoyan.mapper.shopMapper.BrandMapper4Shop;
 import com.cskaoyan.service.shopService.BrandService;
 import com.github.pagehelper.PageHelper;
@@ -69,10 +71,27 @@ public class BrandServiceImpl implements BrandService {
        brandMapper.deleteByPrimaryKey(brand.getId());
     }
 
+    @Override
+    public wxBrandListVO queryBrandsList(Integer page, Integer size) {
+        PageHelper.startPage(page,size);
+        List<wxBrandList> brands = brandMapper.selectBrandList();
+        PageInfo pageInfo = new PageInfo(brands);
+        long total = pageInfo.getTotal();
+        wxBrandListVO wxBrandListVO = new wxBrandListVO();
+        wxBrandListVO.setBrandList(brands);
+        wxBrandListVO.setTotalPages(total);
+        return wxBrandListVO;
+
+    }
+
+    @Override
+    public Brand queryBrandInfo(Integer id) {
+        Brand brand = brandMapper.selectByPrimaryKey(id);
+        return brand;
+    }
+
     private BrandVO getBrandVO(Brand brand) {
-
         BrandVO brandVO = new BrandVO();
-
         brandVO.setId(brand.getId());
         brandVO.setAddTime(brand.getAddTime());
         brandVO.setDesc(brand.getDesc());
