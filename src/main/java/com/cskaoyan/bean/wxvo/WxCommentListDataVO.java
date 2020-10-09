@@ -10,7 +10,7 @@ public class WxCommentListDataVO {
 
     private User userInfo;
     private String addTime;
-    private List<String> picList;
+    private String[] picList;
     private String content;
 
 }

@@ -195,7 +195,29 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+  <resultMap id="CommentListDataMap" type="com.cskaoyan.bean.wxvo.WxCommentListDataVO">
+<!--    <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--    <result column="value_id" jdbcType="INTEGER" property="valueId" />-->
+<!--    <result column="type" jdbcType="TINYINT" property="type" />-->
+    <result column="content" jdbcType="VARCHAR" property="content" />
+<!--    <result column="user_id" jdbcType="INTEGER" property="userId" />-->
+<!--    <result column="has_picture" jdbcType="BIT" property="hasPicture" />-->
+    <result column="pic_urls" jdbcType="VARCHAR" property="picList" />
+<!--    <result column="star" jdbcType="SMALLINT" property="star" />-->
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="nickname"  property="userInfo.nickname" />
+    <result column="avatar"  property="userInfo.avatar" />
+<!--    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />-->
+<!--    <result column="deleted" jdbcType="BIT" property="deleted" />-->
+  </resultMap>
+    <select id="selectWxCommentListData" resultMap="CommentListDataMap">
+        select * from cskaoyanmall_comment comment
+        left join cskaoyanmall_user user
+        on comment.user_id = user.id
+        where  comment.value_id = #{valueId} and comment.type = #{type}
+
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_comment
     <set>
       <if test="record.id != null">

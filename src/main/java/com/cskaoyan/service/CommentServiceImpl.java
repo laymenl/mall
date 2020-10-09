@@ -4,6 +4,7 @@ import com.cskaoyan.bean.GoodsPart.Comment;
 import com.cskaoyan.bean.GoodsPart.CommentExample;
 import com.cskaoyan.bean.ListBean;
 import com.cskaoyan.bean.wxvo.CommentCountVO;
+import com.cskaoyan.bean.wxvo.WxCommentListDataVO;
 import com.cskaoyan.bean.wxvo.WxCommentListVO;
 import com.cskaoyan.mapper.CommentMapper;
 import com.github.pagehelper.Page;
@@ -71,8 +72,8 @@ public class CommentServiceImpl implements CommentService{
             criteria.andHasPictureEqualTo(true);
         }
         PageHelper.startPage(page, size);
-
-        return null;
+        List<WxCommentListDataVO> wxCommentListDataVO = commentMapper.selectWxCommentListData(valueId, size, type, page*size);
+        return new WxCommentListVO(wxCommentListDataVO, wxCommentListDataVO.size(), 1);
     }
 
 }

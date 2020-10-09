@@ -25,6 +25,6 @@ public class WxCommentController {
     public BaseRespVo list(Integer valueId, Byte type, Integer size, Integer page, Byte showType){
         //todo
         WxCommentListVO wxCommentListVO = commentService.list(valueId, type, size, page, showType);
-        return BaseRespVo.ok();
+        return BaseRespVo.ok(wxCommentListVO);
     }
 }
