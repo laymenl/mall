@@ -102,7 +102,7 @@
     </if>
   </delete>
   <update id="deleteCollection">
-    update cskaoyanmall_collect set deleted = 1 where id = #{id} and value_id = #{valueId}
+    update cskaoyanmall_collect set deleted = 1 where user_id = #{id} and value_id = #{valueId}
   </update>
   <insert id="insert" parameterType="com.cskaoyan.bean.collect.UserCollect">
     insert into cskaoyanmall_collect (id, user_id, value_id, 
@@ -167,7 +167,7 @@
       #{addTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{deleted,jdbcType=BIT} )
   </insert>
   <update id="addCollection2">
-    update cskaoyanmall_collect set deleted = 0 where id = #{id} and value_id = #{valueid}
+    update cskaoyanmall_collect set deleted = 0 where user_id = #{id} and value_id = #{valueid}
   </update>
   <select id="countByExample" parameterType="com.cskaoyan.bean.collect.UserCollectExample" resultType="java.lang.Long">
     select count(*) from cskaoyanmall_collect
@@ -190,7 +190,7 @@
       g.brief,g.name,g.pic_url,g.retail_price
       from cskaoyanmall_collect c
       left join cskaoyanmall_goods g on c.value_id = g.id
-      where c.type = #{type} and c.user_id = #{id}
+      where c.type = #{type} and c.user_id = #{id} and c.deleted = 0
     </select>
     <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_collect
