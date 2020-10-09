@@ -2,6 +2,7 @@ package com.cskaoyan.controller.wx;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.OrderPart.OrderGoods;
 import com.cskaoyan.bean.orderCancelBO;
 import com.cskaoyan.bean.wxvo.WxOrderDetailVO;
 import com.cskaoyan.bean.wxvo.WxOrderListVO;
@@ -37,5 +38,43 @@ public class WxOrderController {
         System.out.println(orderID);
         wxOrderService.cancel(orderID);
         return BaseRespVo.ok();
+    }
+
+    @RequestMapping("prepay")
+    public BaseRespVo prepay(@RequestBody orderCancelBO orderCancelBO){
+        Integer orderID = orderCancelBO.getOrderId();
+        System.out.println(orderID);
+        wxOrderService.prepay(orderID);
+        return BaseRespVo.ok();
+    }
+
+    @RequestMapping("refund")
+    public BaseRespVo refund(@RequestBody orderCancelBO orderCancelBO){
+        Integer orderID = orderCancelBO.getOrderId();
+        System.out.println(orderID);
+        wxOrderService.refund(orderID);
+        return BaseRespVo.ok();
+    }
+
+    @RequestMapping("delete")
+    public BaseRespVo delete(@RequestBody orderCancelBO orderCancelBO){
+        Integer orderID = orderCancelBO.getOrderId();
+        System.out.println(orderID);
+        wxOrderService.delete(orderID);
+        return BaseRespVo.ok();
+    }
+    @RequestMapping("confirm")
+    public BaseRespVo confirm(@RequestBody orderCancelBO orderCancelBO){
+        Integer orderID = orderCancelBO.getOrderId();
+        System.out.println(orderID);
+        wxOrderService.confirm(orderID);
+        return BaseRespVo.ok();
+    }
+    @RequestMapping("goods")
+    public BaseRespVo goods(Integer orderId, Integer goodsId){
+        System.out.println(orderId);
+        System.out.println(goodsId);
+        OrderGoods goods = wxOrderService.goods(orderId, goodsId);
+        return BaseRespVo.ok(goods);
     }
 }

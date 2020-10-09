@@ -350,4 +350,28 @@
       deleted = #{deleted,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <resultMap id="selectByOrderIdAndGoodsIdResultMap" type="com.cskaoyan.bean.OrderPart.OrderGoods">
+    <result column="id" property="id"/>
+    <result column="order_id" property="orderId"/>
+    <result column="goods_id" property="goodsId"/>
+    <result column="goods_name" property="goodsName"/>
+    <result column="goods_sn" property="goodsSn"/>
+    <result column="product_id" property="productId"/>
+    <result column="number" property="number"/>
+    <result column="price" property="price"/>
+    <result column="specifications" property="specifications"/>
+    <result column="pic_url" property="picUrl"/>
+    <result column="comment" property="comment"/>
+    <result column="add_time" property="addTime"/>
+    <result column="update_time" property="updateTime"/>
+    <result column="deleted" property="deleted"/>
+
+
+  </resultMap>
+  <select id="selectByOrderIdAndGoodsId" resultMap="selectByOrderIdAndGoodsIdResultMap">
+    select id,order_id,goods_id,goods_name,goods_sn,product_id,number,price,specifications,pic_url,comment,add_time,update_time,deleted
+    from cskaoyanmall_order_goods
+    where order_id = #{orderId} and goods_id = #{goodsId}
+  </select>
 </mapper>
