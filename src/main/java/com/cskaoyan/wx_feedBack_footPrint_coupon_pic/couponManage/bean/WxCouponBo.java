@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class WxCouponBo {
     private Integer couponId;
+    private Integer grouponRulesId;
+    private Integer cardId;
 }

@@ -34,4 +34,10 @@ public interface TopicMapper {
     int updateByPrimaryKeyWithBLOBs(Topic record);
 
     int updateByPrimaryKey(Topic record);
+
+    List<com.cskaoyan.bean.wxvo.Topic> queryTopicList();
+
+
+
+    List<Topic> queryTopicRelated();
 }

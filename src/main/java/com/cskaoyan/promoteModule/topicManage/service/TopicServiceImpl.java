@@ -1,5 +1,7 @@
 package com.cskaoyan.promoteModule.topicManage.service;
 
+import com.cskaoyan.bean.wxvo.TopicDetailVO;
+import com.cskaoyan.bean.wxvo.TopicListVO;
 import com.cskaoyan.mapper.promoteModule.TopicMapper;
 import com.cskaoyan.promoteModule.topicManage.bean.ListBean;
 import com.cskaoyan.promoteModule.topicManage.bean.Topic;
@@ -85,5 +87,33 @@ public class TopicServiceImpl implements TopicService {
     public int delete(Topic topic) {
         int status = topicMapper.deleteByPrimaryKey(topic.getId());
         return status;
+    }
+
+    @Override
+    public TopicListVO queryWxTopicList(Integer page , Integer size) {
+        PageHelper.startPage(page, size);;
+        List<com.cskaoyan.bean.wxvo.Topic> list = topicMapper.queryTopicList();
+        PageInfo pageInfo = new PageInfo(list);
+        long total = pageInfo.getTotal();
+        TopicListVO topicListVO = new TopicListVO();
+        topicListVO.setCount((int) total);
+        topicListVO.setData(list);
+        return topicListVO;
+    }
+
+    @Override
+    public TopicDetailVO queryTopicDetail(Integer id) {
+        TopicExample topicExample = new TopicExample();
+        topicExample.createCriteria().andIdEqualTo(id);
+        List<Topic> topics = topicMapper.selectByExample(topicExample);
+        TopicDetailVO topicDetailVO = new TopicDetailVO();
+        topicDetailVO.setTopic(topics.get(0));
+        return topicDetailVO;
+    }
+
+    @Override
+    public List<Topic> queryTopicRelated(Integer id) {
+        List<Topic> topics = topicMapper.queryTopicRelated();
+        return topics;
     }
 }
