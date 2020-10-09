@@ -306,4 +306,9 @@
   <update id="setDeletedTrue">
     update cskaoyanmall_comment set deleted = true, update_time = now() where id = #{id}
   </update>
+
+  <insert id="insertComment" >
+    insert into cskaoyanmall_comment (value_id, content, star, has_picture, pic_urls) values (#{goodsId},#{content},#{star},#{hasPicture},#{picUrls})
+
+  </insert>
 </mapper>

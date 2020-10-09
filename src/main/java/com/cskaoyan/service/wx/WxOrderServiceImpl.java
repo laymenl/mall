@@ -1,10 +1,12 @@
 package com.cskaoyan.service.wx;
 
+import com.cskaoyan.bean.OrderCommentBO;
 import com.cskaoyan.bean.OrderPart.Order;
 import com.cskaoyan.bean.OrderPart.OrderGoods;
 import com.cskaoyan.bean.User;
 
 import com.cskaoyan.bean.wxvo.*;
+import com.cskaoyan.mapper.CommentMapper;
 import com.cskaoyan.mapper.OrderGoodsMapper;
 import com.cskaoyan.mapper.OrderMapper;
 import com.cskaoyan.mapper.UserMapper;
@@ -25,6 +27,8 @@ public class WxOrderServiceImpl implements WxOrderService{
     OrderMapper orderMapper;
     @Autowired
     OrderGoodsMapper orderGoodsMapper;
+    @Autowired
+    CommentMapper commentMapper;
 
     @Override
     public WxOrderListVO list(Integer showType, Integer page, Integer size) {
@@ -198,9 +202,24 @@ public class WxOrderServiceImpl implements WxOrderService{
     @Override
     public OrderGoods goods(Integer orderId, Integer goodsId) {
         OrderGoods orderGoods = orderGoodsMapper.selectByOrderIdAndGoodsId(orderId, goodsId);
+        Integer orderId1 = orderGoods.getOrderId();
+        Order order = orderMapper.selectByPrimaryKey(orderId1);
+        order.setOrderStatus((short)403);
+        orderMapper.updateByPrimaryKey(order);
         return orderGoods;
 
 
+    }
 
+    @Override
+    public void comment(OrderCommentBO orderCommentBO) {
+        Integer orderGoodsId = orderCommentBO.getOrderGoodsId();
+        String content = orderCommentBO.getContent();
+        Integer star = orderCommentBO.getStar();
+        Boolean hasPicture = orderCommentBO.getHasPicture();
+        String[] picUrls = orderCommentBO.getPicUrls();
+        OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
+        Integer goodsId = orderGoods.getGoodsId();
+        commentMapper.insertComment(goodsId,content,star,hasPicture,picUrls);
     }
 }
