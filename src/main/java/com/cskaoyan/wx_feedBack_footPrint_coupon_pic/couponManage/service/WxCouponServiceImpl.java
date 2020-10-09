@@ -121,6 +121,7 @@ public class WxCouponServiceImpl implements WxCouponService {
     @Override
     public List queryCouponSelectListBean(Integer cardId, Integer grouponRulesId) {
 
+
         List<MyCouponVo> myCouponVoList = new ArrayList<>();
 
 
@@ -131,6 +132,23 @@ public class WxCouponServiceImpl implements WxCouponService {
         userExample.createCriteria().andUsernameEqualTo(username);
         User user = userMapper.selectByExample(userExample).get(0);
 
+        if (cardId == null && grouponRulesId == 0) {
+            CouponUserExample couponUserExample = new CouponUserExample();
+            couponUserExample.createCriteria().andUserIdEqualTo(user.getId());
+            List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
+
+            for (CouponUser couponUser : couponUsers) {
+
+                Coupon coupon = couponMapper.selectByPrimaryKey(couponUser.getCouponId());
+                MyCouponVo myCouponVo = new MyCouponVo(coupon.getId(), coupon.getName(), coupon.getDesc(),
+                        coupon.getTag(), coupon.getMin(), coupon.getDiscount(), coupon.getStartTime(), coupon.getEndTime());
+                if (coupon.getStatus() == 0) {
+                    myCouponVoList.add(myCouponVo);
+                }
+
+            }
+            return myCouponVoList;
+        }
 
         CouponUserExample couponUserExample = new CouponUserExample();
         couponUserExample.createCriteria().andUserIdEqualTo(user.getId());
