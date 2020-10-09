@@ -25,7 +25,6 @@ public class wcAddressController {
     @RequestMapping("list")
     public BaseRespVo list() {
         List<UserAddressVO> userAddressVO = userService.queryUserAddress();
-        System.out.println(userAddressVO);
         return BaseRespVo.ok(userAddressVO);
     }
 
