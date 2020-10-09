@@ -270,14 +270,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer saveUserAddress(UserAddress userAddress) {
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(userExample);
+        Integer userId = users.get(0).getId();
         UserAddressExample userAddressExample = new UserAddressExample();
         UserAddressExample.Criteria criteria = userAddressExample.createCriteria();
-        if(userAddress.getIsDefault()==null){
-            criteriaAdd(userAddress, criteria);
-            userAddressMapper.updateByExampleSelective(userAddress, userAddressExample);
+        if(userAddress.getId()==0){
+            userAddress.setUserId(userId);
+            userAddressMapper.insertSelective(userAddress);
         }else {
             criteriaAdd(userAddress, criteria);
-            criteria.andIsDefaultEqualTo(userAddress.getIsDefault());
             userAddressMapper.updateByExampleSelective(userAddress, userAddressExample);
         }
         return userAddress.getId();
@@ -291,10 +296,11 @@ public class UserServiceImpl implements UserService {
     }
 
     private void criteriaAdd(UserAddress userAddress, UserAddressExample.Criteria criteria) {
-        criteria.andIdEqualTo(userAddress.getId()).andNameEqualTo(userAddress.getName()).
+        criteria.andNameEqualTo(userAddress.getName()).andUserIdEqualTo(userAddress.getId()).
                 andMobileEqualTo(userAddress.getMobile()).andProvinceIdEqualTo(userAddress.getProvinceId()).
                 andCityIdEqualTo(userAddress.getCityId()).andAreaIdEqualTo(userAddress.getAreaId()).
-                andAddressEqualTo(userAddress.getAddress());
+                andAddressEqualTo(userAddress.getAddress()).andAddressEqualTo(userAddress.getAddress());
+        ;
     }
 
 }
