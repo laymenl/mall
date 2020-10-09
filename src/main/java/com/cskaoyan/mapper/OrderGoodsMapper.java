@@ -30,4 +30,5 @@ public interface OrderGoodsMapper {
     int updateByPrimaryKey(OrderGoods record);
 
     OrderGoods selectByOrderIdAndGoodsId(@Param("orderId")Integer orderId,@Param("goodsId") Integer goodsId);
+
 }

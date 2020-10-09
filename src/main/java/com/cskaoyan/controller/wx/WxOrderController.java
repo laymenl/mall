@@ -77,4 +77,5 @@ public class WxOrderController {
         OrderGoods goods = wxOrderService.goods(orderId, goodsId);
         return BaseRespVo.ok(goods);
     }
+
 }

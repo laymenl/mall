@@ -198,7 +198,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public CollectListVO queryWxCollectListBean(Integer type, Integer page, Integer size) {
         PageHelper.startPage(page,size);
-        List<com.cskaoyan.bean.wxvo.CollectListBean> collectListBeans = userCollectMapper.queryWxCollectListBean(type);
+        Subject subject = SecurityUtils.getSubject();
+        String username = (String) subject.getPrincipal();
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andUsernameEqualTo(username);
+        List<User> users = userMapper.selectByExample(userExample);
+        Integer id = users.get(0).getId();
+        List<com.cskaoyan.bean.wxvo.CollectListBean> collectListBeans = userCollectMapper.queryWxCollectListBean(type,id);
         PageInfo pageInfo = new PageInfo(collectListBeans);
         long total = pageInfo.getTotal();
         CollectListVO collectListVO = new CollectListVO();

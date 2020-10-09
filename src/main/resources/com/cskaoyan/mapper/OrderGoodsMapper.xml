@@ -374,4 +374,5 @@
     from cskaoyanmall_order_goods
     where order_id = #{orderId} and goods_id = #{goodsId}
   </select>
+
 </mapper>

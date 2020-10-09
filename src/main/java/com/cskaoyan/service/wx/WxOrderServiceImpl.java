@@ -46,6 +46,7 @@ public class WxOrderServiceImpl implements WxOrderService{
             if (orderStatus == 101) {
 
                 WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, false, true, false, false, false, true);
+
                 wxOrderListData.setOrderStatusText("未付款");
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }
@@ -160,6 +161,9 @@ public class WxOrderServiceImpl implements WxOrderService{
 
     @Override
     public void cancel(Integer orderId) {
+
+//        orderMapper.deleteByPrimaryKey(orderId);
+
         Order order = orderMapper.selectByPrimaryKey(orderId);
         order.setOrderStatus((short)102);
         orderMapper.updateByPrimaryKey(order);
@@ -195,6 +199,7 @@ public class WxOrderServiceImpl implements WxOrderService{
     public OrderGoods goods(Integer orderId, Integer goodsId) {
         OrderGoods orderGoods = orderGoodsMapper.selectByOrderIdAndGoodsId(orderId, goodsId);
         return orderGoods;
+
 
 
     }
