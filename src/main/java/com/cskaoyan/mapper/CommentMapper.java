@@ -31,4 +31,5 @@ public interface CommentMapper {
     int updateByPrimaryKey(Comment record);
 
     void setDeletedTrue(Integer id);
+    void insertComment(@Param("goodsId")Integer goodsId, @Param("content")String content, @Param("star")Integer star, @Param("hasPicture")Boolean hasPicture, @Param("picUrls")String[] picUrls);
 }

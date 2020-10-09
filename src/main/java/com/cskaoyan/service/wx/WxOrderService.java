@@ -1,6 +1,7 @@
 package com.cskaoyan.service.wx;
 
 
+import com.cskaoyan.bean.OrderCommentBO;
 import com.cskaoyan.bean.OrderPart.OrderGoods;
 
 import com.cskaoyan.bean.wxvo.WxOrderDetailVO;
@@ -21,5 +22,7 @@ public interface WxOrderService {
     void confirm(Integer orderID);
 
     OrderGoods goods(Integer orderId, Integer goodsId);
+
+    void comment(OrderCommentBO orderCommentBO);
 
 }

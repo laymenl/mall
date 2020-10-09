@@ -24,6 +24,12 @@ public class ShrioConfig {
         shiroFilterFactoryBean.setSecurityManager(defaultWebSecurityManager);
         LinkedHashMap<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/admin/auth/login", "anon");
+        filterMap.put("wx/auth/login", "anon");
+        filterMap.put("wx/goods", "anon");
+        filterMap.put("wx/brand", "anon");
+        filterMap.put("wx/comment", "anon");
+        filterMap.put("wx/topic", "anon");
+        filterMap.put("wx/search", "anon");
         //todo put wx/login
         filterMap.put("/wx/**", "anon");
         filterMap.put("/**", "authc");
