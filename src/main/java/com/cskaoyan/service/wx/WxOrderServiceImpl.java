@@ -44,7 +44,12 @@ public class WxOrderServiceImpl implements WxOrderService{
             }
             Short orderStatus = order.getOrderStatus();
             if (orderStatus == 101) {
+<<<<<<< HEAD
                 WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, true, true, false, false, false, true);
+=======
+
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, false, true, false, false, false, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
                 wxOrderListData.setOrderStatusText("未付款");
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }
@@ -61,16 +66,28 @@ public class WxOrderServiceImpl implements WxOrderService{
             }
             if (orderStatus == 201) {
                 wxOrderListData.setOrderStatusText("已付款");
+<<<<<<< HEAD
                 WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+=======
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, true, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }
             if (orderStatus == 202) {
                 wxOrderListData.setOrderStatusText("申请退款");
+<<<<<<< HEAD
                 WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }if (orderStatus == 203) {
                 wxOrderListData.setOrderStatusText("已退款");
                 WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, true, false, false, true, true);
+=======
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, false, true);
+                wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
+            }if (orderStatus == 203) {
+                wxOrderListData.setOrderStatusText("已退款");
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, false, false, false, false, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }if (orderStatus == 301) {
                 wxOrderListData.setOrderStatusText("已发货");
@@ -109,7 +126,11 @@ public class WxOrderServiceImpl implements WxOrderService{
         Order order = orderMapper.selectByPrimaryKey(orderId);
         Short orderStatus = order.getOrderStatus();
         if (orderStatus == 101) {
+<<<<<<< HEAD
             WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, true, true, false, false, false, true);
+=======
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, false, true, false, false, false, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
             orderInfoVO.setOrderStatusText("未付款");
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }
@@ -125,16 +146,28 @@ public class WxOrderServiceImpl implements WxOrderService{
         }
         if (orderStatus == 201) {
             orderInfoVO.setOrderStatusText("已付款");
+<<<<<<< HEAD
             WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+=======
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, true, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }
         if (orderStatus == 202) {
             orderInfoVO.setOrderStatusText("申请退款");
+<<<<<<< HEAD
             WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }if (orderStatus == 203) {
             orderInfoVO.setOrderStatusText("已退款");
             WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, true, false, false, true, true);
+=======
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, false, false, false, false, false, true);
+            orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
+        }if (orderStatus == 203) {
+            orderInfoVO.setOrderStatusText("已退款");
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, false, false, false, false, true);
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }if (orderStatus == 301) {
             orderInfoVO.setOrderStatusText("已发货");
@@ -159,6 +192,46 @@ public class WxOrderServiceImpl implements WxOrderService{
 
     @Override
     public void cancel(Integer orderId) {
+<<<<<<< HEAD
         orderMapper.deleteByPrimaryKey(orderId);
+=======
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        order.setOrderStatus((short)102);
+        orderMapper.updateByPrimaryKey(order);
+    }
+
+    @Override
+    public void prepay(Integer orderID) {
+        Order order = orderMapper.selectByPrimaryKey(orderID);
+        order.setOrderStatus((short)201);
+        orderMapper.updateByPrimaryKey(order);
+    }
+
+    @Override
+    public void refund(Integer orderID) {
+        Order order = orderMapper.selectByPrimaryKey(orderID);
+        order.setOrderStatus((short)203);
+        orderMapper.updateByPrimaryKey(order);
+    }
+
+    @Override
+    public void delete(Integer orderID) {
+        orderMapper.deleteByPrimaryKey(orderID);
+    }
+
+    @Override
+    public void confirm(Integer orderID) {
+        Order order = orderMapper.selectByPrimaryKey(orderID);
+        order.setOrderStatus((short)401);
+        orderMapper.updateByPrimaryKey(order);
+    }
+
+    @Override
+    public OrderGoods goods(Integer orderId, Integer goodsId) {
+        OrderGoods orderGoods = orderGoodsMapper.selectByOrderIdAndGoodsId(orderId, goodsId);
+        return orderGoods;
+
+
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
     }
 }

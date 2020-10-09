@@ -31,6 +31,9 @@ public interface RegionMapper4Shop {
     int updateByPrimaryKey(Region record);
 
     List<Province> getList();
+<<<<<<< HEAD
 
     List<Region> getListByPid(Integer pid);
+=======
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
 }

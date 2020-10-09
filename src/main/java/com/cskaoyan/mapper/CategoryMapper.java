@@ -14,6 +14,7 @@ public interface CategoryMapper {
 
 
     Category selectByPrimaryKey(Integer categoryId);
+<<<<<<< HEAD
 
     Category SelectCurrentCategory();
 
@@ -24,4 +25,6 @@ public interface CategoryMapper {
     Category SelectCurrentCategoryById(Integer id);
 
     List<Category> SelectCurrentSubCategoryById(Integer id);
+=======
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
 }

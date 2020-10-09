@@ -25,6 +25,7 @@
         from cskaoyanmall_category
         where id = #{id,jdbcType=INTEGER}
     </select>
+<<<<<<< HEAD
     <resultMap id="category" type="com.cskaoyan.bean.shop.category.Category">
         <result column="id" property="id"/>
         <result column="name" property="name"/>
@@ -54,4 +55,6 @@
     <select id="SelectCurrentSubCategoryById" resultMap="category">
         select * from cskaoyanmall_category  where pid = #{id}
     </select>
+=======
+>>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
 </mapper>
