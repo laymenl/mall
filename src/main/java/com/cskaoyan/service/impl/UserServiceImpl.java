@@ -282,7 +282,8 @@ public class UserServiceImpl implements UserService {
             userAddress.setUserId(userId);
             userAddressMapper.insertSelective(userAddress);
         }else {
-            criteriaAdd(userAddress, criteria);
+            criteria.andUserIdEqualTo(userId).andIdEqualTo(userAddress.getId());
+            userAddress.setUserId(userId);
             userAddressMapper.updateByExampleSelective(userAddress, userAddressExample);
         }
         return userAddress.getId();
@@ -293,14 +294,6 @@ public class UserServiceImpl implements UserService {
         Object id = map.get("id");
         int i = userAddressMapper.deleteByPrimaryKey((Integer) id) ;
         return i;
-    }
-
-    private void criteriaAdd(UserAddress userAddress, UserAddressExample.Criteria criteria) {
-        criteria.andNameEqualTo(userAddress.getName()).andUserIdEqualTo(userAddress.getId()).
-                andMobileEqualTo(userAddress.getMobile()).andProvinceIdEqualTo(userAddress.getProvinceId()).
-                andCityIdEqualTo(userAddress.getCityId()).andAreaIdEqualTo(userAddress.getAreaId()).
-                andAddressEqualTo(userAddress.getAddress()).andAddressEqualTo(userAddress.getAddress());
-        ;
     }
 
 }
