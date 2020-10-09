@@ -2,6 +2,7 @@ package com.cskaoyan.controller.wx;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.OrderCommentBO;
 import com.cskaoyan.bean.OrderPart.OrderGoods;
 import com.cskaoyan.bean.orderCancelBO;
 import com.cskaoyan.bean.wxvo.WxOrderDetailVO;
@@ -76,6 +77,18 @@ public class WxOrderController {
         System.out.println(goodsId);
         OrderGoods goods = wxOrderService.goods(orderId, goodsId);
         return BaseRespVo.ok(goods);
+    }
+
+    @RequestMapping("comment")
+    public BaseRespVo comment(@RequestBody OrderCommentBO orderCommentBO){
+        Integer orderGoodsId = orderCommentBO.getOrderGoodsId();
+        String content = orderCommentBO.getContent();
+        Integer star = orderCommentBO.getStar();
+        Boolean hasPicture = orderCommentBO.getHasPicture();
+        String[] picUrls = orderCommentBO.getPicUrls();
+        System.out.println(orderCommentBO);
+        wxOrderService.comment(orderCommentBO);
+        return BaseRespVo.ok();
     }
 
 }

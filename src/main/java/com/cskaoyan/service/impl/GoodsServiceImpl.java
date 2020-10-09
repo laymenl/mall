@@ -107,9 +107,15 @@ public class GoodsServiceImpl implements GoodsService {
     public void create(Goods goods, List<Specification> specifications, List<Product> products, List<Attribute> attributes) throws RuntimeException{
         try{
             int insertGoods = goodsMapper.insert(goods);
-            int insertSpecifications = specificationMapper.insertSpecifications(specifications, goods.getId());
-            int insertProducts = productMapper.insertProducts(products, goods.getId());
-            int insertAttributes = attributeMapper.insertAttributes(attributes, goods.getId());
+            if(specifications.size() > 0){
+                int insertSpecifications = specificationMapper.insertSpecifications(specifications, goods.getId());
+            }
+            if(products.size() > 0){
+                int insertProducts = productMapper.insertProducts(products, goods.getId());
+            }
+            if(attributes.size() > 0){
+                int insertAttributes = attributeMapper.insertAttributes(attributes, goods.getId());
+            }
         }catch (Exception exception){
             exception.printStackTrace();
             throw new RuntimeException();
