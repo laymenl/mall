@@ -190,7 +190,7 @@
       g.brief,g.name,g.pic_url,g.retail_price
       from cskaoyanmall_collect c
       left join cskaoyanmall_goods g on c.value_id = g.id
-      where c.type = #{type}
+      where c.type = #{type} and c.user_id = #{id}
     </select>
     <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_collect

@@ -14,4 +14,14 @@ public interface CategoryMapper {
 
 
     Category selectByPrimaryKey(Integer categoryId);
+
+    Category SelectCurrentCategory();
+
+    List<Category> SelectCategoryList();
+
+    List<Category> SelectCurrentSubCategory();
+
+    Category SelectCurrentCategoryById(Integer id);
+
+    List<Category> SelectCurrentSubCategoryById(Integer id);
 }

@@ -30,7 +30,7 @@ public interface UserCollectMapper {
 
     int updateByPrimaryKey(UserCollect record);
 
-    List<CollectListBean> queryWxCollectListBean(Integer type);
+    List<CollectListBean> queryWxCollectListBean(Integer type,Integer id);
 
     void deleteCollection(Byte type, Integer valueId,Integer id);
 

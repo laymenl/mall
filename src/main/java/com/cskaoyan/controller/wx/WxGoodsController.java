@@ -2,10 +2,7 @@ package com.cskaoyan.controller.wx;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.GoodsPart.Goods;
-import com.cskaoyan.bean.wxvo.GoodsCategoryVO;
-import com.cskaoyan.bean.wxvo.GoodsCountVO;
-import com.cskaoyan.bean.wxvo.GoodsDetailVO;
-import com.cskaoyan.bean.wxvo.GoodsListVO;
+import com.cskaoyan.bean.wxvo.*;
 import com.cskaoyan.service.GoodsService;
 import com.cskaoyan.service.shopService.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +36,9 @@ public class WxGoodsController {
     //page: 1
     //size: 100
     @RequestMapping("list")
-    public BaseRespVo list(Integer categoryId, Integer page, Integer size, String sort, String order, String keyword){
+    public Object list(Integer categoryId, Integer page, Integer size, String sort, String order, String keyword, Integer brandId){
+        if (brandId!=null)
+            return new AddressDeleteVO(502, "系统内部错误");
         GoodsListVO goodsListVO = goodsService.list(categoryId, page, size, sort, order, keyword);
         return BaseRespVo.ok(goodsListVO);
     }

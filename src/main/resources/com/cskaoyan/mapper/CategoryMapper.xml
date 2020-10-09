@@ -25,4 +25,33 @@
         from cskaoyanmall_category
         where id = #{id,jdbcType=INTEGER}
     </select>
+    <resultMap id="category" type="com.cskaoyan.bean.shop.category.Category">
+        <result column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="keywords" property="keywords"/>
+        <result column="desc" property="desc"/>
+        <result column="pid" property="pid"/>
+        <result column="icon_url" property="iconUrl"/>
+        <result column="pic_url" property="picUrl"/>
+        <result column="level" property="level"/>
+        <result column="sort_order" property="sortOrder"/>
+        <result column="add_time" property="addTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+    </resultMap>
+    <select id="SelectCurrentCategory" resultMap="category">
+        select * from cskaoyanmall_category  where pid = 0 limit 0,1
+    </select>
+    <select id="SelectCategoryList" resultMap="category">
+        select * from cskaoyanmall_category  where pid = 0
+    </select>
+    <select id="SelectCurrentSubCategory" resultMap="category">
+        select * from cskaoyanmall_category where  pid = 1005000
+    </select>
+    <select id="SelectCurrentCategoryById" resultMap="category">
+        select * from cskaoyanmall_category  where pid = 0 and id = #{id}
+    </select>
+    <select id="SelectCurrentSubCategoryById" resultMap="category">
+        select * from cskaoyanmall_category  where pid = #{id}
+    </select>
 </mapper>
