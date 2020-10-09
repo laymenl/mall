@@ -101,7 +101,7 @@ public class WxCouponServiceImpl implements WxCouponService {
         for (CouponUser couponUser : couponUsers) {
 
             Coupon coupon = couponMapper.selectByPrimaryKey(couponUser.getCouponId());
-            if (coupon.getStatus() == status){
+            if (coupon.getStatus() == status) {
                 couponList.add(coupon);
             }
 
@@ -137,22 +137,27 @@ public class WxCouponServiceImpl implements WxCouponService {
         List<CouponUser> couponUsers = couponUserMapper.selectByExample(couponUserExample);
 
         GrouponRules grouponRules = grouponRulesMapper.selectByPrimaryKey(grouponRulesId);
+        Goods goods = new Goods();
 
-        Goods goods = goodsMapper.selectByPrimaryKey(grouponRules.getGoodsId());
+        try {
+            goods = goodsMapper.selectByPrimaryKey(grouponRules.getGoodsId());
+        } catch (Exception e) {
+            return myCouponVoList;
+        }
         Category category = categoryMapper.selectByPrimaryKey(goods.getCategoryId());
 
         for (CouponUser couponUser : couponUsers) {
             Coupon coupon = couponMapper.selectByPrimaryKey(couponUser.getCouponId());
-            MyCouponVo myCouponVo = new MyCouponVo(coupon.getId(),coupon.getName(),coupon.getDesc(),
-                    coupon.getTag(),coupon.getMin(),coupon.getDiscount(),coupon.getStartTime(),coupon.getEndTime());
-            if (coupon.getGoodsType() == 0){
+            MyCouponVo myCouponVo = new MyCouponVo(coupon.getId(), coupon.getName(), coupon.getDesc(),
+                    coupon.getTag(), coupon.getMin(), coupon.getDiscount(), coupon.getStartTime(), coupon.getEndTime());
+            if (coupon.getGoodsType() == 0) {
                 myCouponVoList.add(myCouponVo);
-            }else if (coupon.getGoodsType()==1){
-                if (Arrays.asList(coupon.getGoodsValue()).contains(category.getName())){
+            } else if (coupon.getGoodsType() == 1) {
+                if (Arrays.asList(coupon.getGoodsValue()).contains(category.getName())) {
                     myCouponVoList.add(myCouponVo);
                 }
-            }else {
-                if (Arrays.asList(coupon.getGoodsValue()).contains(grouponRules.getGoodsName())){
+            } else {
+                if (Arrays.asList(coupon.getGoodsValue()).contains(grouponRules.getGoodsName())) {
                     myCouponVoList.add(myCouponVo);
                 }
             }
