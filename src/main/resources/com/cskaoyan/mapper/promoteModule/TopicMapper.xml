@@ -227,6 +227,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <resultMap id="topicList" type="com.cskaoyan.bean.wxvo.Topic">
+    <result column="id" property="id"/>
+    <result column="title" property="title"/>
+    <result column="subtitle" property="subtitle"/>
+    <result column="price" property="price"/>
+    <result column="read_count" property="readCount"/>
+    <result column="pic_url" property="picUrl"/>
+  </resultMap>
+    <select id="queryTopicList" resultMap="topicList">
+        select * from cskaoyanmall_topic
+    </select>
+
+
+
+  <select id="queryTopicRelated" resultMap="BaseResultMap">
+    SELECT * FROM cskaoyanmall_topic ORDER BY RAND() LIMIT 4;
+  </select>
   <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_topic
     <set>

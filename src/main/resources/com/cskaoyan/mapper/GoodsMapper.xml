@@ -301,7 +301,7 @@
       from cskaoyanmall_comment comment
       left join cskaoyanmall_order_goods goods on goods.comment = comment.id
       left join cskaoyanmall_user user on user.id = comment.user_id
-      where goods.id = #{id}
+      where comment.value_id = #{id}
     </select>
     <update id="updateByExampleSelective" parameterType="map">
     update cskaoyanmall_goods
