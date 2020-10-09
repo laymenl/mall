@@ -28,9 +28,7 @@ public interface OrderGoodsMapper {
     int updateByPrimaryKeySelective(OrderGoods record);
 
     int updateByPrimaryKey(OrderGoods record);
-<<<<<<< HEAD
-=======
 
     OrderGoods selectByOrderIdAndGoodsId(@Param("orderId")Integer orderId,@Param("goodsId") Integer goodsId);
->>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
+
 }

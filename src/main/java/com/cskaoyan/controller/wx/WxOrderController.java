@@ -2,10 +2,7 @@ package com.cskaoyan.controller.wx;
 
 import com.cskaoyan.bean.BaseRespVo;
 import com.cskaoyan.bean.ListBean;
-<<<<<<< HEAD
-=======
 import com.cskaoyan.bean.OrderPart.OrderGoods;
->>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
 import com.cskaoyan.bean.orderCancelBO;
 import com.cskaoyan.bean.wxvo.WxOrderDetailVO;
 import com.cskaoyan.bean.wxvo.WxOrderListVO;
@@ -42,8 +39,6 @@ public class WxOrderController {
         wxOrderService.cancel(orderID);
         return BaseRespVo.ok();
     }
-<<<<<<< HEAD
-=======
 
     @RequestMapping("prepay")
     public BaseRespVo prepay(@RequestBody orderCancelBO orderCancelBO){
@@ -82,5 +77,5 @@ public class WxOrderController {
         OrderGoods goods = wxOrderService.goods(orderId, goodsId);
         return BaseRespVo.ok(goods);
     }
->>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
+
 }

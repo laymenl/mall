@@ -235,10 +235,7 @@
     LEFT JOIN cskaoyanmall_region as r on c.id = r.pid
     WHERE r.id and c.id IS not null
   </select>
-<<<<<<< HEAD
     <select id="getListByPid" resultType="com.cskaoyan.bean.shop.region.Region">
       select * from cskaoyanmall_region where pid = #{pid}
     </select>
-=======
->>>>>>> 1109be14e2f4f112ea4ce734cadacdfd8abca678
 </mapper>
