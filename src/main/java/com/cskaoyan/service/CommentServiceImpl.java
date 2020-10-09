@@ -3,7 +3,10 @@ package com.cskaoyan.service;
 import com.cskaoyan.bean.GoodsPart.Comment;
 import com.cskaoyan.bean.GoodsPart.CommentExample;
 import com.cskaoyan.bean.ListBean;
+import com.cskaoyan.bean.wxvo.CommentCountVO;
+import com.cskaoyan.bean.wxvo.WxCommentListVO;
 import com.cskaoyan.mapper.CommentMapper;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +47,32 @@ public class CommentServiceImpl implements CommentService{
         }catch (Exception exception){
             throw new RuntimeException();
         }
+    }
+
+    @Override
+    public CommentCountVO count(int valueId, int type) {
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andValueIdEqualTo(valueId).andDeletedEqualTo(false).andTypeEqualTo((byte)type);
+        int allCount = (int) commentMapper.countByExample(commentExample);
+        criteria.andHasPictureEqualTo(true);
+        int hasPicCount = (int) commentMapper.countByExample(commentExample);
+        return new CommentCountVO(hasPicCount, allCount);
+    }
+
+    @Override
+    public WxCommentListVO list(Integer valueId, Byte type, Integer size, Integer page, Byte showType) {
+
+        //todo
+        CommentExample commentExample = new CommentExample();
+        CommentExample.Criteria criteria = commentExample.createCriteria();
+        criteria.andTypeEqualTo(type).andDeletedEqualTo(false).andValueIdEqualTo(valueId);
+        if(showType == 1){
+            criteria.andHasPictureEqualTo(true);
+        }
+        PageHelper.startPage(page, size);
+
+        return null;
     }
 
 }
