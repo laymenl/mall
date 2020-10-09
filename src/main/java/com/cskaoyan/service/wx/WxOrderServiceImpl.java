@@ -62,16 +62,16 @@ public class WxOrderServiceImpl implements WxOrderService{
             }
             if (orderStatus == 201) {
                 wxOrderListData.setOrderStatusText("已付款");
-                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, true, true);
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }
             if (orderStatus == 202) {
                 wxOrderListData.setOrderStatusText("申请退款");
-                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, false, true);
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }if (orderStatus == 203) {
                 wxOrderListData.setOrderStatusText("已退款");
-                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, true, false, false, true, true);
+                WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, false, false, false, false, true);
                 wxOrderListData.setHandleOption(wxOrderListDataHandleOption);
             }if (orderStatus == 301) {
                 wxOrderListData.setOrderStatusText("已发货");
@@ -126,16 +126,16 @@ public class WxOrderServiceImpl implements WxOrderService{
         }
         if (orderStatus == 201) {
             orderInfoVO.setOrderStatusText("已付款");
-            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, false, false, false, true, true);
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }
         if (orderStatus == 202) {
             orderInfoVO.setOrderStatusText("申请退款");
-            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, false, true, false, false, true, true);
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(true, false, false, false, false, false, true);
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }if (orderStatus == 203) {
             orderInfoVO.setOrderStatusText("已退款");
-            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, true, false, false, true, true);
+            WxOrderListDataHandleOption wxOrderListDataHandleOption = new WxOrderListDataHandleOption(false, true, false, false, false, false, true);
             orderInfoVO.setHandleOption(wxOrderListDataHandleOption);
         }if (orderStatus == 301) {
             orderInfoVO.setOrderStatusText("已发货");
